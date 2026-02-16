@@ -82,13 +82,24 @@ export const HeroSection = () => {
   return (
     <motion.section
       ref={containerRef}
-      className="relative min-h-screen flex items-center overflow-hidden bg-black"
+      className="relative min-h-screen flex items-center overflow-hidden"
       style={{ 
         opacity: springOpacity, 
         scale,
         filter: useTransform(blur, (v) => `blur(${v}px)`),
+        background: 'linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 0%) 40%, hsl(0 0% 0%) 100%)',
       }}
     >
+      {/* Film grain overlay */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-20"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          opacity: 0.03,
+          mixBlendMode: 'overlay',
+        }}
+      />
+
       <ParticleField />
 
       {/* Text content - LEFT SIDE */}
@@ -109,7 +120,7 @@ export const HeroSection = () => {
             >
               <h1
                 className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-tight transition-all duration-300 ${
-                  index === 1 ? 'text-gradient font-medium' : 'text-foreground/90'
+                  index === 1 ? 'text-gradient font-medium' : index === 0 ? 'text-foreground/95' : 'text-foreground/60'
                 }`}
                 style={{
                   letterSpacing: isHoveringText === index ? '0.02em' : '-0.02em',
@@ -177,6 +188,23 @@ export const HeroSection = () => {
       >
         {/* Rounded black container */}
         <div className="absolute inset-0 bg-black rounded-3xl overflow-hidden" />
+
+        {/* Radial glow behind illustration */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 50% at 50% 60%, hsl(0 0% 15% / 0.25) 0%, transparent 70%)',
+          }}
+        />
+
+        {/* Soft ground shadow */}
+        <div 
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[60%] h-8 pointer-events-none rounded-full"
+          style={{
+            background: 'radial-gradient(ellipse at center, hsl(0 0% 0% / 0.6) 0%, transparent 70%)',
+            filter: 'blur(12px)',
+          }}
+        />
         
         <motion.div
           className="relative w-full h-full flex items-end justify-center pb-8"
@@ -201,7 +229,7 @@ export const HeroSection = () => {
       </motion.div>
 
       {/* Ambient gradient on left side */}
-      <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-radial from-muted/10 to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none" style={{ background: 'radial-gradient(ellipse at 20% 40%, hsl(0 0% 8% / 0.5) 0%, transparent 70%)' }} />
     </motion.section>
   );
 };
