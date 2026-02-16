@@ -173,14 +173,17 @@ export const ManifestoSection = () => {
               About Me
             </motion.span>
 
-            <motion.h2
-              className="manifesto-text text-3xl md:text-5xl font-light text-gradient leading-tight"
+            <motion.p
+              className="manifesto-text text-lg text-muted-foreground leading-relaxed max-w-lg"
               initial={{ opacity: 0, x: 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              I believe in the poetry of motion.
-            </motion.h2>
+              I build things the way some people write letters they'll never send.
+              Somewhere between logic and longing, I found programming.
+              A strange craft—where you can give structure to chaos,
+              and call it meaning.
+            </motion.p>
 
             <motion.p
               className="manifesto-text text-lg text-muted-foreground leading-relaxed max-w-lg"
@@ -188,16 +191,18 @@ export const ManifestoSection = () => {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Every pixel has a purpose. Every animation tells a story. I craft digital experiences that don't just exist—they breathe, they respond, they invite you to linger.
+              I believe every system is a confession.
+              Every dataset is a pattern waiting to be understood.
+              Every clean line of code is an attempt to make sense of a world that rarely is.
             </motion.p>
 
             <motion.p
-              className="manifesto-text text-lg text-muted-foreground leading-relaxed max-w-lg"
+              className="manifesto-text text-lg text-muted-foreground/70 leading-relaxed max-w-lg"
               initial={{ opacity: 0, x: 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              From subtle micro-interactions to cinematic scroll experiences, I obsess over the details that transform good design into unforgettable moments.
+              Every commit is a quiet refusal to disappear.
             </motion.p>
 
             <motion.div
@@ -206,7 +211,7 @@ export const ManifestoSection = () => {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              {['React', 'GSAP', 'Framer', 'Three.js'].map((skill, i) => (
+              {['Python', 'Java', 'SQL', 'Power BI'].map((skill, i) => (
                 <motion.span
                   key={skill}
                   className="text-sm text-foreground/70 px-3 py-1.5 rounded-full border border-border/50 hover:border-foreground/30 hover:text-foreground transition-colors cursor-default"
