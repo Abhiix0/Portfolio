@@ -163,7 +163,7 @@ export const ManifestoSection = () => {
           </motion.div>
 
           {/* Right: Manifesto text */}
-          <div className="space-y-8">
+          <div className="space-y-10">
             <motion.span
               className="manifesto-text text-sm tracking-widest uppercase text-muted-foreground block"
               initial={{ opacity: 0, x: 50 }}
@@ -174,30 +174,37 @@ export const ManifestoSection = () => {
             </motion.span>
 
             <motion.p
-              className="manifesto-text text-lg text-muted-foreground leading-relaxed max-w-lg"
+              className="manifesto-text text-lg text-muted-foreground max-w-xl"
+              style={{ lineHeight: 1.75 }}
               initial={{ opacity: 0, x: 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
               I build things the way some people write letters they'll never send.
+              <br />
               Somewhere between logic and longing, I found programming.
+              <br />
               A strange craft—where you can give structure to chaos,
+              <br />
               and call it meaning.
             </motion.p>
 
-            <motion.p
-              className="manifesto-text text-lg text-muted-foreground leading-relaxed max-w-lg"
+            <motion.div
+              className="manifesto-text text-lg text-muted-foreground max-w-xl space-y-2"
+              style={{ lineHeight: 1.7 }}
               initial={{ opacity: 0, x: 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              I believe every system is a confession.
-              Every dataset is a pattern waiting to be understood.
-              Every clean line of code is an attempt to make sense of a world that rarely is.
-            </motion.p>
+              <p>I believe every system is a confession.</p>
+              <p>Every dataset is a pattern waiting to be understood.</p>
+              <p>Every clean line of code is an attempt to make sense of a world</p>
+              <p>that rarely is.</p>
+            </motion.div>
 
             <motion.p
-              className="manifesto-text text-lg text-muted-foreground/70 leading-relaxed max-w-lg"
+              className="manifesto-text text-lg text-muted-foreground/70 max-w-xl mt-14"
+              style={{ lineHeight: 1.7 }}
               initial={{ opacity: 0, x: 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
