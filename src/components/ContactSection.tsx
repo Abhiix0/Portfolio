@@ -257,7 +257,7 @@ export const ContactSection = () => {
           transition={{ duration: 0.8, delay: 1.2 }}
         >
           <motion.a
-            href="mailto:hello@example.com"
+            href="mailto:abhinavsai039@gmail.com"
             className="inline-block group relative"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
