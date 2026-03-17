@@ -2,14 +2,15 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Github, Linkedin, ArrowUpRight } from 'lucide-react';
+import { Mail, Github, Twitter, Linkedin, ArrowUpRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const socialLinks = [
   { icon: Github, label: "GitHub", href: "#" },
+  { icon: Twitter, label: "Twitter", href: "#" },
   { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Mail, label: "Email", href: "mailto:abhinavsai039@gmail.com" },
+  { icon: Mail, label: "Email", href: "mailto:hello@example.com" },
 ];
 
 export const ContactSection = () => {
@@ -156,16 +157,24 @@ export const ContactSection = () => {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             >
-              If this made sense to you,
-            </motion.span>
-            <br />
+              Let's create
+            </motion.span>{" "}
             <motion.span
               className="inline-block text-gradient"
               initial={{ opacity: 0, x: 60 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
-              we should talk.
+              something
+            </motion.span>
+            <br />
+            <motion.span
+              className="inline-block"
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            >
+              extraordinary together.
             </motion.span>
           </motion.h2>
 
@@ -175,7 +184,7 @@ export const ContactSection = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            I'm open to ideas, projects, or just a good conversation.
+            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
           </motion.p>
         </motion.div>
 
@@ -249,7 +258,7 @@ export const ContactSection = () => {
           transition={{ duration: 0.8, delay: 1.2 }}
         >
           <motion.a
-            href="mailto:abhinavsai039@gmail.com"
+            href="mailto:hello@example.com"
             className="inline-block group relative"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -274,7 +283,7 @@ export const ContactSection = () => {
                 style={{ originX: 0 }}
               />
               <span className="relative z-10 text-lg font-medium text-foreground group-hover:text-background transition-colors duration-300">
-                abhinavsai039@gmail.com
+                hello@example.com
               </span>
             </motion.div>
           </motion.a>
