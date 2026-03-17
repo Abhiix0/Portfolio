@@ -165,16 +165,7 @@ export const ContactSection = () => {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
-              something
-            </motion.span>
-            <br />
-            <motion.span
-              className="inline-block"
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            >
-              extraordinary together.
+              we should talk.
             </motion.span>
           </motion.h2>
 
