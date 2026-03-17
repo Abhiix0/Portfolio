@@ -7,10 +7,9 @@ import { Mail, Github, Linkedin, ArrowUpRight } from 'lucide-react';
 gsap.registerPlugin(ScrollTrigger);
 
 const socialLinks = [
-  { icon: Github, label: "GitHub", href: "#" },
-  { icon: Twitter, label: "Twitter", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Mail, label: "Email", href: "mailto:hello@example.com" },
+  { icon: Github, label: "GitHub", href: "https://github.com/Abhiix0" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/abhiinavsaig" },
+  { icon: Mail, label: "Email", href: "mailto:abhinavsai039@gmail.com" },
 ];
 
 export const ContactSection = () => {
