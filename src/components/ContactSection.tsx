@@ -2,15 +2,14 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Github, Twitter, Linkedin, ArrowUpRight } from 'lucide-react';
+import { Mail, Github, Linkedin, ArrowUpRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const socialLinks = [
-  { icon: Github, label: "GitHub", href: "#" },
-  { icon: Twitter, label: "Twitter", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Mail, label: "Email", href: "mailto:hello@example.com" },
+  { icon: Github, label: "GitHub", href: "https://github.com/Abhiix0" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/abhiinavsaig" },
+  { icon: Mail, label: "Email", href: "mailto:abhinavsai039@gmail.com" },
 ];
 
 export const ContactSection = () => {
@@ -258,7 +257,7 @@ export const ContactSection = () => {
           transition={{ duration: 0.8, delay: 1.2 }}
         >
           <motion.a
-            href="mailto:hello@example.com"
+            href="mailto:abhinavsai039@gmail.com"
             className="inline-block group relative"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -283,7 +282,7 @@ export const ContactSection = () => {
                 style={{ originX: 0 }}
               />
               <span className="relative z-10 text-lg font-medium text-foreground group-hover:text-background transition-colors duration-300">
-                hello@example.com
+                abhinavsai039@gmail.com
               </span>
             </motion.div>
           </motion.a>
