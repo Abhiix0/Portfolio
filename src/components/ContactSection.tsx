@@ -282,7 +282,7 @@ export const ContactSection = () => {
                 style={{ originX: 0 }}
               />
               <span className="relative z-10 text-lg font-medium text-foreground group-hover:text-background transition-colors duration-300">
-                hello@example.com
+                abhinavsai039@gmail.com
               </span>
             </motion.div>
           </motion.a>
