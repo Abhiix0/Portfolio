@@ -175,7 +175,7 @@ export const ContactSection = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+            I'm open to ideas, projects, or just a good conversation.
           </motion.p>
         </motion.div>
 
