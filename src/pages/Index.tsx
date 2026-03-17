@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HeroSection } from '@/components/HeroSection';
@@ -9,10 +9,9 @@ import { ProjectsSection } from '@/components/ProjectsSection';
 import { ContactSection } from '@/components/ContactSection';
 import { CustomCursor } from '@/components/CustomCursor';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const Index = () => {
   const mainRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     // Smooth scroll behavior
@@ -117,10 +116,7 @@ const Index = () => {
 
         {/* Ambient noise overlay for texture */}
         <div
-          className="fixed inset-0 pointer-events-none z-[100] opacity-[0.012]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          }}
+          className="noise-overlay fixed inset-0 pointer-events-none z-[100] opacity-[0.012]"
         />
 
         {/* Scroll progress indicator */}
@@ -135,15 +131,8 @@ const Index = () => {
               className="absolute top-0 left-0 w-full bg-foreground/60"
               style={{
                 height: '100%',
-                scaleY: 0,
+                scaleY: scrollYProgress,
                 transformOrigin: 'top',
-              }}
-              animate={{
-                scaleY: [0, 1],
-              }}
-              transition={{
-                duration: 0.5,
-                ease: "easeOut",
               }}
             />
           </div>

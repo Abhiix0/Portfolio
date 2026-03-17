@@ -1,10 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import quoteBg from '@/assets/quote-bg.png';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export const QuoteSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);

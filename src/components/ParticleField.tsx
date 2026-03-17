@@ -10,6 +10,7 @@ interface Particle {
   delay: number;
   opacity: number;
   drift: number;
+  color: string;
 }
 
 interface LightStreak {
@@ -24,6 +25,7 @@ export const ParticleField = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [lightStreaks, setLightStreaks] = useState<LightStreak[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
+  const [viewH, setViewH] = useState(typeof window !== 'undefined' ? window.innerHeight : 800);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,6 +39,7 @@ export const ParticleField = () => {
       delay: Math.random() * 15,
       opacity: Math.random() * 0.4 + 0.1,
       drift: (Math.random() - 0.5) * 150,
+      color: `hsl(0 0% ${70 + Math.random() * 30}% / ${(Math.random() * 0.4 + 0.1).toFixed(2)})`,
     }));
     setParticles(newParticles);
 
@@ -49,6 +52,12 @@ export const ParticleField = () => {
       delay: Math.random() * 5,
     }));
     setLightStreaks(newStreaks);
+  }, []);
+
+  useEffect(() => {
+    const update = () => setViewH(window.innerHeight);
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
   }, []);
 
   useEffect(() => {
@@ -105,7 +114,7 @@ export const ParticleField = () => {
             height: streak.height,
           }}
           animate={{
-            y: [-streak.height, window.innerHeight + streak.height],
+            y: [-streak.height, viewH + streak.height],
             opacity: [0, 0.5, 0.5, 0],
           }}
           transition={{
@@ -126,11 +135,11 @@ export const ParticleField = () => {
             left: `${particle.x}%`,
             width: particle.size,
             height: particle.size,
-            background: `hsl(0 0% ${70 + Math.random() * 30}% / ${particle.opacity})`,
+            background: particle.color,
             boxShadow: particle.size > 2 ? `0 0 ${particle.size * 3}px hsl(0 0% 100% / 0.2)` : 'none',
           }}
           animate={{
-            y: [window.innerHeight, -100],
+            y: [viewH, -100],
             x: [0, particle.drift],
             rotate: [0, 360],
             opacity: [0, particle.opacity, particle.opacity, 0],

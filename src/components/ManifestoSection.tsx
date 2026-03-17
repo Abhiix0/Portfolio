@@ -1,33 +1,28 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import profileImage from '@/assets/profile-portrait.png';
 
-gsap.registerPlugin(ScrollTrigger);
+const rippleRings = Array.from({ length: 4 }, (_, i) => ({
+  id: i,
+  delay: i * 0.6,
+  duration: 3 + i * 0.5,
+  scale: 1.3 + i * 0.25,
+}));
+
+const innerParticles = Array.from({ length: 8 }, (_, i) => ({
+  id: i,
+  x: Math.random() * 80 + 10,
+  y: Math.random() * 80 + 10,
+  size: Math.random() * 3 + 1,
+  duration: Math.random() * 4 + 3,
+}));
 
 export const ManifestoSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const [isHoveringProfile, setIsHoveringProfile] = useState(false);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-
-  // Generate ripple rings
-  const rippleRings = Array.from({ length: 4 }, (_, i) => ({
-    id: i,
-    delay: i * 0.6,
-    duration: 3 + i * 0.5,
-    scale: 1.3 + i * 0.25,
-  }));
-
-  // Generate floating particles inside circle
-  const innerParticles = Array.from({ length: 8 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 80 + 10,
-    y: Math.random() * 80 + 10,
-    size: Math.random() * 3 + 1,
-    duration: Math.random() * 4 + 3,
-  }));
 
   useEffect(() => {
     if (!sectionRef.current) return;

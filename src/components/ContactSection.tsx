@@ -1,16 +1,21 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Mail, Github, Linkedin, ArrowUpRight } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const socialLinks = [
   { icon: Github, label: "GitHub", href: "https://github.com/Abhiix0" },
   { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/abhiinavsaig" },
   { icon: Mail, label: "Email", href: "mailto:abhinavsai039@gmail.com" },
 ];
+
+const chronoParticles = Array.from({ length: 12 }, (_, i) => ({
+  id: i,
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  size: Math.random() * 4 + 2,
+  duration: Math.random() * 6 + 4,
+  color: `hsl(0 0% ${50 + Math.random() * 30}% / 0.3)`,
+}));
 
 export const ContactSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -39,14 +44,7 @@ export const ContactSection = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Generate chrono glow particles
-  const chronoParticles = Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 4 + 2,
-    duration: Math.random() * 6 + 4,
-  }));
+  // Generate chrono glow particles removed — now module-level constant
 
   return (
     <section
@@ -80,7 +78,7 @@ export const ContactSection = () => {
               top: `${particle.y}%`,
               width: particle.size,
               height: particle.size,
-              background: `hsl(0 0% ${50 + Math.random() * 30}% / 0.3)`,
+              background: particle.color,
               boxShadow: `0 0 ${particle.size * 3}px hsl(0 0% 60% / 0.2)`,
             }}
             animate={{
