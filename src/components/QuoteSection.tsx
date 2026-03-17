@@ -35,7 +35,7 @@ export const QuoteSection = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const quoteWords = "Design is not just what it looks like. Design is how it works.".split(' ');
+  const quoteWords = "Clarity doesn't arrive all at once. It builds, slowly, in pieces.".split(' ');
 
   return (
     <section
