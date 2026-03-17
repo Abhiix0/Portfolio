@@ -8,9 +8,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const socialLinks = [
   { icon: Github, label: "GitHub", href: "#" },
-  { icon: Twitter, label: "Twitter", href: "#" },
   { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Mail, label: "Email", href: "mailto:hello@example.com" },
+  { icon: Mail, label: "Email", href: "mailto:abhinavsai039@gmail.com" },
 ];
 
 export const ContactSection = () => {
