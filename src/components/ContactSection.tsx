@@ -127,7 +127,7 @@ export const ContactSection = () => {
       <div className="container px-8 md:px-16 relative z-10">
         {/* Main heading with interactive parallax */}
         <motion.div
-          className="max-w-4xl mx-auto text-center mb-20"
+          className="max-w-3xl mx-auto text-center mb-20"
           animate={{
             x: mousePos.x * 15,
             y: mousePos.y * 10,
@@ -144,34 +144,25 @@ export const ContactSection = () => {
           </motion.span>
 
           <motion.h2
-            className="text-4xl md:text-6xl lg:text-7xl font-light leading-tight"
+            className="text-3xl md:text-5xl lg:text-6xl font-light leading-[1.2]"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
           >
             <motion.span
-              className="inline-block"
-              initial={{ opacity: 0, x: -60 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            >
-              Let's create
-            </motion.span>{" "}
-            <motion.span
-              className="inline-block text-gradient"
-              initial={{ opacity: 0, x: 60 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            >
-              something
-            </motion.span>
-            <br />
-            <motion.span
-              className="inline-block"
-              initial={{ opacity: 0, y: 40 }}
+              className="block"
+              initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.8, delay: 0.15 }}
             >
-              extraordinary together.
+              If this made sense to you,
+            </motion.span>
+            <motion.span
+              className="block mt-2"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              we should talk.
             </motion.span>
           </motion.h2>
 
@@ -181,7 +172,7 @@ export const ContactSection = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+            I’m open to ideas, projects, or just a good conversation.
           </motion.p>
         </motion.div>
 
