@@ -35,7 +35,7 @@ export const QuoteSection = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const quoteWords = "Design is not just what it looks like. Design is how it works.".split(' ');
+  const quoteWords = "Clarity doesn't arrive all at once. It builds, slowly, in pieces.".split(' ');
 
   return (
     <section
@@ -150,16 +150,12 @@ export const QuoteSection = () => {
             </blockquote>
 
             <motion.div
-              className="flex items-center gap-4 pt-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 1.2 }}
-            >
-              <div className="w-12 h-px bg-gradient-to-r from-foreground/50 to-transparent" />
-              <span className="text-sm text-muted-foreground tracking-widest uppercase">
-                Steve Jobs
-              </span>
-            </motion.div>
+              className="w-12 h-px bg-gradient-to-r from-foreground/20 to-transparent mt-6"
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              style={{ transformOrigin: 'left' }}
+            />
           </motion.div>
         </div>
       </div>
