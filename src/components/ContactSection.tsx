@@ -156,8 +156,9 @@ export const ContactSection = () => {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             >
-              Let's create
-            </motion.span>{" "}
+              If this made sense to you,
+            </motion.span>
+            <br />
             <motion.span
               className="inline-block text-gradient"
               initial={{ opacity: 0, x: 60 }}
