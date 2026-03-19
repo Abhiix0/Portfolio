@@ -69,7 +69,7 @@ export const ProjectsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-32 section-ambient"
+      className="relative min-h-screen py-16 md:py-24 lg:py-32 section-ambient"
     >
       {/* Background ambient elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -87,9 +87,9 @@ export const ProjectsSection = () => {
         />
       </div>
 
-      <div className="container px-8 md:px-16 relative z-10">
+      <div className="container px-4 md:px-8 lg:px-16 relative z-10">
         {/* Section header */}
-        <div ref={headerRef} className="projects-header mb-20">
+        <div ref={headerRef} className="projects-header mb-10 md:mb-16 lg:mb-20">
           <motion.span
             className="text-sm tracking-widest uppercase text-muted-foreground block"
             initial={{ opacity: 0, x: -30 }}

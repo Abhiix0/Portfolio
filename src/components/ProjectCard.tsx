@@ -69,7 +69,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
     <>
       <motion.div
         ref={cardRef}
-        className="relative h-80 cursor-pointer"
+        className="relative h-64 md:h-80 cursor-pointer"
         style={{ perspective: 1000 }}
         initial={{ opacity: 0, y: 80 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
         data-magnetic
       >
         <motion.div
-          className="w-full h-full card-ambient rounded-2xl p-8 flex flex-col justify-between glow-border transition-all duration-300 relative overflow-hidden"
+          className="w-full h-full card-ambient rounded-2xl p-5 md:p-8 flex flex-col justify-between glow-border transition-all duration-300 relative overflow-hidden"
           style={{
             rotateX,
             rotateY,
@@ -133,7 +133,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
           {/* Project number */}
           <motion.span
-            className="text-6xl font-light text-muted-foreground/20 select-none"
+            className="text-4xl md:text-6xl font-light text-muted-foreground/20 select-none"
             style={{ transform: "translateZ(30px)" }}
           >
             {String(index + 1).padStart(2, '0')}
@@ -141,7 +141,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
           <div className="space-y-4" style={{ transform: "translateZ(20px)" }}>
             <motion.h3
-              className="text-2xl font-medium text-foreground"
+              className="text-xl md:text-2xl font-medium text-foreground"
               animate={{ x: isHovering ? 8 : 0 }}
               transition={{ duration: 0.3 }}
             >
@@ -205,7 +205,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
             {/* Content */}
             <motion.div
-              className="relative z-10 w-full max-w-2xl card-ambient rounded-3xl p-8 md:p-12 glow-border overflow-hidden"
+              className="relative z-10 w-full max-w-2xl card-ambient rounded-3xl p-6 md:p-8 lg:p-12 glow-border overflow-hidden"
               initial={{ scale: 0.85, opacity: 0, y: 40 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -237,7 +237,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
               </motion.span>
 
               <motion.h2
-                className="text-3xl md:text-4xl font-medium text-foreground mt-4"
+                className="text-2xl md:text-3xl lg:text-4xl font-medium text-foreground mt-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}

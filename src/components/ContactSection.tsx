@@ -39,7 +39,7 @@ export const ContactSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-32 flex items-center section-ambient"
+      className="relative min-h-screen py-16 md:py-24 lg:py-32 flex items-center section-ambient"
     >
       {/* Interactive parallax background */}
       <motion.div
@@ -91,21 +91,21 @@ export const ContactSection = () => {
       {/* Animated border lines */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/50 to-transparent"
+          className="hidden md:block absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/50 to-transparent"
           animate={{ opacity: [0.15, 0.4, 0.15] }}
           transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent"
+          className="hidden md:block absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent"
           animate={{ opacity: [0.2, 0.5, 0.2] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
         />
       </div>
 
-      <div className="container px-8 md:px-16 relative z-10">
+      <div className="container px-4 md:px-8 lg:px-16 relative z-10">
         {/* Main heading */}
         <motion.div
-          className="max-w-3xl mx-auto text-center mb-20"
+          className="max-w-3xl mx-auto text-center mb-12 md:mb-16 lg:mb-20"
           animate={{ x: mousePos.x * 15, y: mousePos.y * 10 }}
           transition={{ type: 'spring', stiffness: 100, damping: 30 }}
         >
@@ -169,7 +169,7 @@ export const ContactSection = () => {
               data-magnetic
             >
               <motion.div
-                className="relative flex items-center gap-3 px-6 py-4 rounded-2xl border border-border/40 bg-card/20 backdrop-blur-sm overflow-hidden"
+                className="relative flex items-center gap-3 px-4 py-3 md:px-6 md:py-4 rounded-2xl border border-border/40 bg-card/20 backdrop-blur-sm overflow-hidden"
                 whileHover={{ scale: 1.05, borderColor: 'hsl(0 0% 40%)', boxShadow: '0 0 40px hsl(0 0% 30% / 0.2)' }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               >

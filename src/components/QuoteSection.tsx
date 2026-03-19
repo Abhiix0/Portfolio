@@ -138,7 +138,7 @@ export const QuoteSection = () => {
   const quoteWords = "Clarity doesn't arrive all at once. It builds, slowly, in pieces.".split(' ');
 
   return (
-    <section ref={sectionRef} className="relative min-h-[80vh] pt-16 pb-24 flex items-center overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-[80vh] pt-12 pb-16 md:pt-16 md:pb-24 flex items-center overflow-hidden">
 
       <motion.div className="absolute inset-0 z-0" style={{ y: imageY }}>
         <img src={quoteBg} alt="" className="w-full h-[120%] object-cover opacity-40" />
@@ -228,7 +228,7 @@ export const QuoteSection = () => {
             transition={{ duration: 1, delay: 0.3 }}
           >
             <motion.span
-              className="text-7xl md:text-9xl text-foreground/20 font-serif leading-none block"
+              className="text-5xl md:text-7xl lg:text-9xl text-foreground/20 font-serif leading-none block"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -236,7 +236,7 @@ export const QuoteSection = () => {
               &#x201C;
             </motion.span>
 
-            <blockquote className="text-2xl md:text-4xl font-light leading-relaxed -mt-4">
+            <blockquote className="text-xl md:text-3xl lg:text-4xl font-light leading-relaxed -mt-4">
               {quoteWords.map((word, index) => (
                 <motion.span
                   key={index}

@@ -72,7 +72,7 @@ const Index = () => {
             ASG
           </motion.a>
 
-          <div className="flex items-center gap-6 md:gap-8">
+          <div className="hidden sm:flex items-center gap-6 md:gap-8">
             {[
               { label: 'About', href: '#about' },
               { label: 'Work', href: '#projects' },

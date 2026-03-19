@@ -156,7 +156,7 @@ export const ManifestoSection = () => {
               {floatingLabels.map((label) => (
                 <motion.div
                   key={label.id}
-                  className="absolute z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-foreground/60 border border-border/50 backdrop-blur-sm"
+                  className="absolute z-20 hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-foreground/60 border border-border/50 backdrop-blur-sm"
                   style={{
                     top: label.top,
                     left: label.left,
@@ -199,7 +199,7 @@ export const ManifestoSection = () => {
 
               {/* Ripple rings + profile circle — fills the wrapper exactly */}
               <div
-                className="relative w-full h-full"
+                className="relative overflow-hidden lg:overflow-visible w-full h-full"
                 onMouseEnter={() => setIsHoveringProfile(true)}
                 onMouseLeave={() => setIsHoveringProfile(false)}
               >
@@ -274,7 +274,7 @@ export const ManifestoSection = () => {
           </motion.div>
 
           {/* Right: Manifesto text */}
-          <div className="space-y-10">
+          <div className="space-y-6 lg:space-y-10">
             <motion.span
               className="manifesto-text text-sm tracking-widest uppercase text-muted-foreground block"
               initial={{ opacity: 0, x: 50 }}
