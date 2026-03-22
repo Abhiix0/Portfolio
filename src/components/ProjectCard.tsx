@@ -23,6 +23,18 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [particles, setParticles] = useState<{ id: number; x: number; y: number }[]>([]);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isExpanded]);
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -55,7 +67,6 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
   const handleMouseEnter = () => {
     setIsHovering(true);
-    // Create particle burst
     const newParticles = Array.from({ length: 6 }, (_, i) => ({
       id: Date.now() + i,
       x: Math.random() * 100,
