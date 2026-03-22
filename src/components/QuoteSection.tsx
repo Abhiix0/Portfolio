@@ -138,7 +138,7 @@ export const QuoteSection = () => {
   const quoteWords = "Clarity doesn't arrive all at once. It builds, slowly, in pieces.".split(' ');
 
   return (
-    <section ref={sectionRef} className="relative min-h-[80vh] pt-12 pb-16 md:pt-16 md:pb-24 flex items-center overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-[80vh] pt-12 pb-16 md:pt-16 md:pb-24 flex items-center overflow-hidden" style={{ position: 'relative' }}>
 
       <motion.div className="absolute inset-0 z-0" style={{ y: imageY }}>
         <img src={quoteBg} alt="" className="w-full h-[120%] object-cover opacity-40" />
@@ -208,6 +208,7 @@ export const QuoteSection = () => {
                     r={4.5}
                     fill="white"
                     filter="url(#dotglow)"
+                    initial={{ cx: tx, cy: ty, opacity: 0 }}
                     animate={{ cx: tx, cy: ty, opacity: 0.9 }}
                     transition={{
                       cx:      { duration: 1.3, delay: i * 0.035, ease: [0.22, 1, 0.36, 1] },
