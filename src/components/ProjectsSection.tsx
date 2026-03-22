@@ -6,58 +6,40 @@ import { ProjectCard } from './ProjectCard';
 const projects = [
   {
     id: 1,
-    title: "Ethereal Canvas",
-    description: "An interactive art experience that responds to sound and movement.",
-    longDescription: "A groundbreaking web experience that transforms audio input into stunning visual art. Built with WebGL and the Web Audio API, this project explores the intersection of music and visual design, creating unique artworks that evolve in real-time.",
-    tags: ["WebGL", "Audio API", "Creative Coding"],
-    link: "#",
-    github: "#",
+    title: 'AI Data Analyst',
+    description: 'Drop any dataset. Get a complete AI-powered analysis in seconds.',
+    longDescription:
+      'A multi-agent data analysis tool built with Python and Streamlit. Upload any CSV or Excel file and get automatic dataset profiling, interactive visualizations, LLM-generated insights via Groq, prioritized recommendations, and a downloadable report — no code required. Built on a pipeline architecture where each agent owns one responsibility: profiling, visualization, insight generation, recommendations, and report assembly. Includes a free-form chat interface to ask questions about your data, Kaggle API integration for fetching public datasets, and a rule-based fallback for when the LLM is unavailable.',
+    tags: ['Python', 'Streamlit', 'Multi-Agent', 'LLM', 'Groq', 'Pandas'],
+    github: 'https://github.com/Abhiix0/AI-Data-Analyst',
   },
   {
     id: 2,
-    title: "Mindflow",
-    description: "A meditation app with adaptive ambient soundscapes.",
-    longDescription: "Mindflow combines AI-generated ambient music with guided breathing exercises. The app learns from user sessions to create personalized soundscapes that evolve throughout the meditation, helping users achieve deeper states of relaxation.",
-    tags: ["React Native", "AI/ML", "Audio"],
-    link: "#",
-    github: "#",
-  },
-  {
-    id: 3,
-    title: "Chronicle",
-    description: "A minimal journaling platform with beautiful typography.",
-    longDescription: "Chronicle reimagines digital journaling with a focus on typography and distraction-free writing. Features include mood tracking, encrypted storage, and beautiful PDF exports. The interface adapts to the time of day with subtle theme changes.",
-    tags: ["Next.js", "Typography", "Privacy"],
-    link: "#",
-  },
-  {
-    id: 4,
-    title: "Pulse",
-    description: "Real-time collaboration tools for creative teams.",
-    longDescription: "A suite of tools designed for creative agencies and design teams. Pulse includes real-time whiteboarding, asset management, and client feedback systems. Built for speed and seamless collaboration across distributed teams.",
-    tags: ["WebSockets", "Canvas API", "Collaboration"],
-    link: "#",
-    github: "#",
+    title: 'Data Insight Lab',
+    description: 'Real-world datasets turned into clear, actionable dashboards.',
+    longDescription:
+      'A collection of Power BI dashboards built on real-world datasets — Tech Layoffs (global workforce reduction patterns across companies and industries), Streaming Content Analysis (genre trends, production countries, runtime patterns and content growth over time), and Airline Flight Delay Analysis (delay patterns, airport congestion, and operational efficiency). Each dashboard focuses on turning raw messy data into a story a non-technical person can act on — built with Power Query for transformation, DAX for calculated measures, and intentional visual design to surface the insights that matter.',
+    tags: ['Power BI', 'DAX', 'Power Query', 'Data Visualization', 'Analytics'],
+    github: 'https://github.com/Abhiix0/data-insight-lab',
   },
 ];
 
 export const ProjectsSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const headerRef  = useRef<HTMLDivElement>(null);
+  const isInView   = useInView(sectionRef, { once: true, margin: '-100px' });
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Parallax effect on scroll
       gsap.to('.projects-header', {
         y: -50,
-        ease: "none",
+        ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
+          start: 'top bottom',
+          end:   'bottom top',
           scrub: 1,
         },
       });
@@ -77,13 +59,13 @@ export const ProjectsSection = () => {
           className="absolute top-1/3 right-0 w-[600px] h-[600px] rounded-full blur-3xl"
           style={{ background: 'radial-gradient(circle, hsl(0 0% 10% / 0.4) 0%, transparent 70%)' }}
           animate={{ x: [0, 50, 0], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
           className="absolute bottom-1/4 left-0 w-[500px] h-[500px] rounded-full blur-3xl"
           style={{ background: 'radial-gradient(circle, hsl(0 0% 8% / 0.5) 0%, transparent 70%)' }}
           animate={{ x: [0, -30, 0], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
         />
       </div>
 
@@ -112,12 +94,12 @@ export const ProjectsSection = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            A curated selection of work that represents my passion for craft and attention to detail.
+            Things I've built — data pipelines, AI tools, dashboards that turn noise into decisions.
           </motion.p>
         </div>
 
-        {/* Projects grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        {/* 2-card grid — centered on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 lg:max-w-4xl lg:mx-auto">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
