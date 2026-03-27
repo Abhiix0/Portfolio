@@ -87,6 +87,7 @@ export const HeroSection = () => {
       ref={containerRef}
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{
+        position: 'relative',
         opacity: springOpacity, scale,
         filter: useTransform(blur, (v) => `blur(${v}px)`),
         background: 'linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 0%) 40%, hsl(0 0% 0%) 100%)',

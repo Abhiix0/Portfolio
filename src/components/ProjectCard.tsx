@@ -160,7 +160,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
             </motion.h3>
             <p className="text-muted-foreground line-clamp-2">{project.description}</p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="relative flex flex-wrap gap-2">
               {project.tags.map((tag, i) => (
                 <motion.span
                   key={tag}
