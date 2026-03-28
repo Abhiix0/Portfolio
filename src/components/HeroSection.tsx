@@ -101,8 +101,8 @@ export const HeroSection = () => {
       <BubbleField />
 
       {/* Text — LEFT */}
-      <div ref={textRef} className="relative z-10 w-full md:w-1/2 pl-8 md:pl-24 lg:pl-32 pr-4">
-        <div className="max-w-xl">
+      <div ref={textRef} className="relative z-10 w-full md:w-1/2 pl-8 md:pl-24 lg:pl-32 xl:pl-40 2xl:pl-48 pr-4">
+        <div className="max-w-lg">
           {textLines.map((line, index) => (
             <motion.div
               key={index}
@@ -113,7 +113,7 @@ export const HeroSection = () => {
               onMouseLeave={() => setIsHoveringText(null)}
             >
               <h1
-                className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-tight transition-all duration-300 ${
+                className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-tight transition-all duration-300 text-balance ${
                   index === 1 ? 'text-gradient font-medium' : index === 0 ? 'text-foreground/95' : 'text-foreground/60'
                 }`}
                 style={{
@@ -148,7 +148,7 @@ export const HeroSection = () => {
       {/* Silhouette — RIGHT — clean, no bubble layering issues */}
       <motion.div
         ref={silhouetteRef}
-        className="absolute right-8 md:right-16 bottom-8 md:bottom-16 w-[85%] md:w-[40%] h-[70vh] pointer-events-none"
+        className="absolute right-8 md:right-16 xl:right-24 2xl:right-32 bottom-8 md:bottom-16 w-[85%] md:w-[40%] xl:w-[35%] 2xl:w-[30%] h-[70vh] pointer-events-none"
         style={{ y: springY }}
       >
         {/* Rounded container — bg-black clips the inverted PNG white background */}

@@ -52,7 +52,7 @@ const Index = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2 }}
-        className="relative"
+        className="relative overflow-x-hidden"
       >
         <CustomCursor />
 

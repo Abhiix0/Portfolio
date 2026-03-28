@@ -42,7 +42,7 @@
     
     /* Gradients */
     --gradient-radial: radial-gradient(ellipse at center, hsl(0 0% 10%) 0%, hsl(0 0% 2%) 100%);
-    --gradient-ambient: linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 0%) 50%, hsl(0 0% 4%) 100%);
+    --gradient-ambient: linear-gradient(180deg, hsl(0 0% 0%) 0%, hsl(0 0% 0%) 50%, hsl(0 0% 4%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 8%) 0%, hsl(0 0% 4%) 100%);
     --gradient-glow: radial-gradient(circle at center, hsl(0 0% 25% / 0.3) 0%, transparent 70%);
     
@@ -81,6 +81,7 @@
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Space Grotesk', system-ui, sans-serif;
     overflow-x: hidden;
+    background-color: hsl(0 0% 0%);
   }
 
   ::selection {

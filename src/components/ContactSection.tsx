@@ -102,7 +102,7 @@ export const ContactSection = () => {
         />
       </div>
 
-      <div className="container px-4 md:px-8 lg:px-16 relative z-10">
+      <div className="container px-4 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto">
         {/* Main heading */}
         <motion.div
           className="max-w-3xl mx-auto text-center mb-12 md:mb-16 lg:mb-20"
