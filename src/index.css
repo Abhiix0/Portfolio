@@ -84,6 +84,12 @@
     background-color: hsl(0 0% 0%);
   }
 
+  @media (min-width: 768px) {
+    html, body, * {
+      cursor: none !important;
+    }
+  }
+
   ::selection {
     @apply bg-primary/20 text-foreground;
   }
