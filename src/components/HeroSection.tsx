@@ -131,7 +131,7 @@ export const HeroSection = () => {
           ))}
 
           <motion.p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-md leading-relaxed" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}>
-            Curiosity first. Progress over perfection.
+            Watching clouds. Solving problems.
           </motion.p>
 
           <motion.div className="mt-12" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 1.8 }}>
