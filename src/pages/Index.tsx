@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -12,6 +12,16 @@ import { CustomCursor } from '@/components/CustomCursor';
 const Index = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      setIsModalOpen((e as CustomEvent).detail.open);
+    };
+    window.addEventListener('modalStateChange', handler);
+    return () => window.removeEventListener('modalStateChange', handler);
+  }, []);
 
   useEffect(() => {
     // Smooth scroll behavior
@@ -58,7 +68,7 @@ const Index = () => {
 
         {/* Navigation */}
         <motion.nav
-          className="fixed top-0 left-0 w-full z-40 p-6 md:p-8 flex justify-between items-center mix-blend-difference"
+          className={`fixed top-0 left-0 w-full z-40 p-6 md:p-8 flex justify-between items-center mix-blend-difference transition-all duration-200 ${isModalOpen ? 'pointer-events-none opacity-0' : ''}`}
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -121,7 +131,7 @@ const Index = () => {
 
         {/* Scroll progress indicator */}
         <motion.div
-          className="fixed bottom-8 right-8 z-50 hidden md:block"
+          className={`fixed bottom-8 right-8 z-50 hidden md:block transition-all duration-200 ${isModalOpen ? 'pointer-events-none opacity-0' : ''}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}

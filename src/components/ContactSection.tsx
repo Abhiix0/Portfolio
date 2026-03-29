@@ -197,8 +197,8 @@ export const ContactSection = () => {
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ duration: 1, delay: 1.5 }}
       >
-        <p className="text-sm text-muted-foreground/40">
-          © {new Date().getFullYear()} — Designed & Built with ♥
+        <p className="text-sm text-muted-foreground/30 tracking-widest uppercase">
+          ASG — {new Date().getFullYear()}
         </p>
       </motion.footer>
     </section>

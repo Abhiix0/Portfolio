@@ -7,18 +7,18 @@ const projects = [
   {
     id: 1,
     title: 'AI Data Analyst',
-    description: 'Drop any dataset. Get a complete AI-powered analysis in seconds.',
+    description: 'Built a multi-agent analysis pipeline that turns raw data into structured insight — no code required.',
     longDescription:
-      'A multi-agent data analysis tool built with Python and Streamlit. Upload any CSV or Excel file and get automatic dataset profiling, interactive visualizations, LLM-generated insights via Groq, prioritized recommendations, and a downloadable report — no code required. Built on a pipeline architecture where each agent owns one responsibility: profiling, visualization, insight generation, recommendations, and report assembly. Includes a free-form chat interface to ask questions about your data, Kaggle API integration for fetching public datasets, and a rule-based fallback for when the LLM is unavailable.',
+      'Designed and built a multi-agent data analysis tool using Python and Streamlit. Drop in any CSV or Excel file and the system handles everything — automated profiling, interactive visualizations, and LLM-generated insights via Groq API. A free-form chat interface lets you ask questions about your data directly. Built on a strict pipeline architecture: each agent owns exactly one responsibility — profiling, visualization, insight generation, recommendations, and report assembly. Includes Kaggle API integration for fetching public datasets and a rule-based fallback when the LLM is unavailable. The goal was simple: make data accessible to anyone, not just people who can write code.',
     tags: ['Python', 'Streamlit', 'Multi-Agent', 'LLM', 'Groq', 'Pandas'],
     github: 'https://github.com/Abhiix0/AI-Data-Analyst',
   },
   {
     id: 2,
     title: 'Data Insight Lab',
-    description: 'Real-world datasets turned into clear, actionable dashboards.',
+    description: 'Designed Power BI dashboards that surface patterns in real-world data — built for clarity, not decoration.',
     longDescription:
-      'A collection of Power BI dashboards built on real-world datasets — Tech Layoffs (global workforce reduction patterns across companies and industries), Streaming Content Analysis (genre trends, production countries, runtime patterns and content growth over time), and Airline Flight Delay Analysis (delay patterns, airport congestion, and operational efficiency). Each dashboard focuses on turning raw messy data into a story a non-technical person can act on — built with Power Query for transformation, DAX for calculated measures, and intentional visual design to surface the insights that matter.',
+      'A series of Power BI dashboards built on real, messy datasets — Tech Layoffs (workforce reduction patterns across companies, industries, and time), Streaming Content Analysis (genre trends, production countries, runtime shifts, and content growth), and Airline Flight Delay Analysis (delay patterns, airport congestion, and operational bottlenecks). Each dashboard starts from a question a real person would ask, not from the data itself. Built with Power Query for transformation, DAX for calculated measures, and deliberate visual design to surface what matters. The measure of success: a non-technical stakeholder should be able to act on it without an explanation.',
     tags: ['Power BI', 'DAX', 'Power Query', 'Data Visualization', 'Analytics'],
     github: 'https://github.com/Abhiix0/data-insight-lab',
   },
