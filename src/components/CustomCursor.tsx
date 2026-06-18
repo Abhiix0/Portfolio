@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Ripple {
@@ -22,6 +22,8 @@ export const CustomCursor = () => {
   const lastTrailTime = useRef(0);
 
   useEffect(() => {
+    const timeoutIds: ReturnType<typeof setTimeout>[] = [];
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
 
@@ -31,10 +33,12 @@ export const CustomCursor = () => {
         lastTrailTime.current = now;
         const newTrail = { id: trailIdRef.current++, x: e.clientX, y: e.clientY };
         setTrails((prev) => [...prev.slice(-15), newTrail]);
-        
-        setTimeout(() => {
+
+        const id = setTimeout(() => {
           setTrails((prev) => prev.filter((t) => t.id !== newTrail.id));
         }, 400);
+
+        timeoutIds.push(id);
       }
     };
 
@@ -58,21 +62,31 @@ export const CustomCursor = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
+      timeoutIds.forEach(clearTimeout);
     };
   }, []);
 
-  const handleClick = useCallback((e: MouseEvent) => {
-    const newRipple = { id: Date.now(), x: e.clientX, y: e.clientY };
-    setRipples((prev) => [...prev, newRipple]);
-    setTimeout(() => {
-      setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
-    }, 800);
-  }, []);
-
   useEffect(() => {
+    const rippleTimeouts: ReturnType<typeof setTimeout>[] = [];
+
+    const handleClick = (e: MouseEvent) => {
+      const newRipple = { id: Date.now(), x: e.clientX, y: e.clientY };
+      setRipples((prev) => [...prev, newRipple]);
+
+      const id = setTimeout(() => {
+        setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
+      }, 800);
+
+      rippleTimeouts.push(id);
+    };
+
     window.addEventListener('click', handleClick);
-    return () => window.removeEventListener('click', handleClick);
-  }, [handleClick]);
+
+    return () => {
+      window.removeEventListener('click', handleClick);
+      rippleTimeouts.forEach(clearTimeout);
+    };
+  }, []);
 
   return (
     <>

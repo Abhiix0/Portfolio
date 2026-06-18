@@ -19,10 +19,23 @@ export const HeroSection = () => {
 
   // ── audio ─────────────────────────────────────────────────────────────────
   useEffect(() => {
+    // Clean up any pre-existing instance (Strict Mode double-invoke guard)
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = '';
+      audioRef.current = null;
+    }
+
     const audio = new Audio(ambientAudio);
-    audio.loop = true; audio.volume = 0;
+    audio.loop = true;
+    audio.volume = 0;
     audioRef.current = audio;
-    return () => { audio.pause(); audio.src = ''; };
+
+    return () => {
+      audio.pause();
+      audio.src = '';
+      audioRef.current = null;
+    };
   }, []);
 
   const fadeVolume = (target: number, duration = 1200) => {
@@ -53,6 +66,7 @@ export const HeroSection = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const scale   = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
   const blur    = useTransform(scrollYProgress, [0, 0.5], [0, 8]);
+  const blurFilter = useTransform(blur, (v) => `blur(${v}px)`);
   const springY       = useSpring(y,       { stiffness: 80,  damping: 25 });
   const springOpacity = useSpring(opacity, { stiffness: 100, damping: 30 });
 
@@ -89,7 +103,7 @@ export const HeroSection = () => {
       style={{
         position: 'relative',
         opacity: springOpacity, scale,
-        filter: useTransform(blur, (v) => `blur(${v}px)`),
+        filter: blurFilter,
         background: 'linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 0%) 40%, hsl(0 0% 0%) 100%)',
       }}
     >
