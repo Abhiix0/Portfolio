@@ -24,34 +24,35 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    // Smooth scroll behavior
     document.documentElement.style.scrollBehavior = 'smooth';
 
-    // GSAP ScrollTrigger refresh on load
-    ScrollTrigger.refresh();
+    const ctx = gsap.context(() => {
+      // Defer refresh so child component effects have already registered their triggers
+      requestAnimationFrame(() => ScrollTrigger.refresh());
 
-    // Section transition effects
-    const sections = document.querySelectorAll('section');
-    sections.forEach((section) => {
-      gsap.fromTo(
-        section,
-        { opacity: 0.8 },
-        {
-          opacity: 1,
-          duration: 0.5,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            end: "top 20%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    });
+      // Section transition effects
+      const sections = document.querySelectorAll('section');
+      sections.forEach((section) => {
+        gsap.fromTo(
+          section,
+          { opacity: 0.8 },
+          {
+            opacity: 1,
+            duration: 0.5,
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 80%',
+              end: 'top 20%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
+      });
+    }, mainRef);
 
     return () => {
       document.documentElement.style.scrollBehavior = 'auto';
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ctx.revert(); // Only kills triggers created inside this context
     };
   }, []);
 
