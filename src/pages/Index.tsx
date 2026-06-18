@@ -73,12 +73,14 @@ const Index = () => {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
+          aria-hidden={isModalOpen ? true : undefined}
         >
           <motion.a
             href="#"
             className="text-lg font-medium text-foreground tracking-tight"
             whileHover={{ scale: 1.05 }}
             data-magnetic
+            tabIndex={isModalOpen ? -1 : undefined}
           >
             ASG
           </motion.a>
@@ -97,6 +99,7 @@ const Index = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                 whileHover={{ y: -2 }}
+                tabIndex={isModalOpen ? -1 : undefined}
               >
                 {item.label}
                 <motion.span
@@ -136,6 +139,7 @@ const Index = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
+          aria-hidden={true}
         >
           <div className="w-px h-24 bg-border/30 relative overflow-hidden rounded-full">
             <motion.div
