@@ -26,7 +26,6 @@ const projects = [
 
 export const ProjectsSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const headerRef  = useRef<HTMLDivElement>(null);
   const isInView   = useInView(sectionRef, { once: true, margin: '-100px' });
 
   useEffect(() => {
@@ -71,7 +70,7 @@ export const ProjectsSection = () => {
 
       <div className="container px-4 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto">
         {/* Section header */}
-        <div ref={headerRef} className="projects-header mb-10 md:mb-16 lg:mb-20">
+        <div className="projects-header mb-10 md:mb-16 lg:mb-20">
           <motion.span
             className="text-sm tracking-widest uppercase text-muted-foreground block"
             initial={{ opacity: 0, x: -30 }}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 
 interface Ripple {
   id: number;
@@ -21,11 +21,18 @@ export const CustomCursor = () => {
   const trailIdRef = useRef(0);
   const lastTrailTime = useRef(0);
 
+  const glowX = useMotionValue(0);
+  const glowY = useMotionValue(0);
+  const springGlowX = useSpring(glowX, { stiffness: 200, damping: 20 });
+  const springGlowY = useSpring(glowY, { stiffness: 200, damping: 20 });
+
   useEffect(() => {
     const timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
+      glowX.set(e.clientX - 40);
+      glowY.set(e.clientY - 40);
 
       // Add trail particle with throttling
       const now = Date.now();
@@ -151,11 +158,15 @@ export const CustomCursor = () => {
           <motion.div
             className="fixed pointer-events-none z-[9996] rounded-full hidden md:block"
             style={{
-              left: mousePos.x - 40,
-              top: mousePos.y - 40,
+              x: springGlowX,
+              y: springGlowY,
               width: 80,
               height: 80,
               background: 'radial-gradient(circle, hsl(0 0% 100% / 0.08) 0%, transparent 70%)',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              pointerEvents: 'none',
             }}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

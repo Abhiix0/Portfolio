@@ -1,6 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import gsap from 'gsap';
 import profileImage from '@/assets/profile-portrait.png';
 
 const innerParticles = Array.from({ length: 8 }, (_, i) => ({
@@ -70,31 +69,6 @@ export const ManifestoSection = () => {
   const profileRef = useRef<HTMLDivElement>(null);
   const [isHoveringProfile, setIsHoveringProfile] = useState(false);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.manifesto-text',
-        { opacity: 0, x: 50 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1,
-          stagger: 0.15,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section
