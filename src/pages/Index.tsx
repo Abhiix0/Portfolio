@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useScroll } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HeroSection } from '@/components/HeroSection';
@@ -58,7 +58,6 @@ const Index = () => {
   }, []);
 
   return (
-    <AnimatePresence>
       <motion.div
         ref={mainRef}
         initial={{ opacity: 0 }}
@@ -154,7 +153,6 @@ const Index = () => {
           </div>
         </motion.div>
       </motion.div>
-    </AnimatePresence>
   );
 };
 

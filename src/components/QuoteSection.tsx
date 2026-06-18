@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, useMemo } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import quoteBg from '@/assets/quote-bg.png';
+import { useMousePosition } from '@/contexts/MouseContext';
 
 // ── canvas ────────────────────────────────────────────────────────────────────
 const W  = 500;
@@ -71,7 +72,7 @@ export const QuoteSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView   = useInView(sectionRef, { once: true, margin: '0px 0px -10% 0px' });
 
-  const [mousePos,  setMousePos]  = useState({ x: 0, y: 0 });
+  const rawMouse = useMousePosition();
   const [fIdx,      setFIdx]      = useState(0);
   const [showLines, setShowLines] = useState(false);
   // dotPositions drives where dots currently are — starts at scatter, moves to formation
@@ -80,6 +81,15 @@ export const QuoteSection = () => {
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
   const imageY   = useTransform(scrollYProgress, [0, 1], [80, -80]);
   const overlayY = useTransform(scrollYProgress, [0, 1], [20, -20]);
+
+  // Compute section-relative mouse position (-0.5 to 0.5) from raw global position
+  const rect = sectionRef.current?.getBoundingClientRect();
+  const mousePos = rect
+    ? {
+        x: (rawMouse.x - rect.left) / rect.width - 0.5,
+        y: (rawMouse.y - rect.top) / rect.height - 0.5,
+      }
+    : { x: 0, y: 0 };
 
   // Stable scatter positions — random but fixed for this render
   const scatter = useMemo<[number, number][]>(
@@ -125,16 +135,6 @@ export const QuoteSection = () => {
   // scatter is a useMemo with [] — stable reference, safe to omit from deps
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInView]);
-
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      if (!sectionRef.current) return;
-      const r = sectionRef.current.getBoundingClientRect();
-      setMousePos({ x: (e.clientX - r.left) / r.width - 0.5, y: (e.clientY - r.top) / r.height - 0.5 });
-    };
-    window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
 
   const lines      = buildLines(FORMATIONS[fIdx]);
   const quoteWords = "Clarity doesn't arrive all at once. It builds, slowly, in pieces.".split(' ');

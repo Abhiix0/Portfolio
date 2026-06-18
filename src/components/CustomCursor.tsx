@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import type { Ripple, Trail } from '@/types';
+import { useMousePosition } from '@/contexts/MouseContext';
 
 export const CustomCursor = () => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const mousePos = useMousePosition();
   const [isHovering, setIsHovering] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [trails, setTrails] = useState<Trail[]>([]);
@@ -15,15 +16,19 @@ export const CustomCursor = () => {
   const springGlowX = useSpring(glowX, { stiffness: 200, damping: 20 });
   const springGlowY = useSpring(glowY, { stiffness: 200, damping: 20 });
 
+  // Sync glow motion values with latest mouse position
+  useEffect(() => {
+    glowX.set(mousePos.x - 40);
+    glowY.set(mousePos.y - 40);
+  // glowX and glowY are useMotionValue instances — stable object references, safe to omit
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mousePos.x, mousePos.y]);
+
   useEffect(() => {
     const timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-      glowX.set(e.clientX - 40);
-      glowY.set(e.clientY - 40);
-
-      // Add trail particle with throttling
+      // Trail throttling — mousePos comes from context, only trail logic needed here
       const now = Date.now();
       if (now - lastTrailTime.current > 30) {
         lastTrailTime.current = now;
@@ -60,8 +65,6 @@ export const CustomCursor = () => {
       window.removeEventListener('mouseover', handleMouseOver);
       timeoutIds.forEach(clearTimeout);
     };
-  // glowX and glowY are useMotionValue instances — stable object references, safe to omit
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
