@@ -75,32 +75,6 @@ export const ManifestoSection = () => {
       ref={sectionRef}
       className="relative min-h-screen py-32 flex items-center section-ambient overflow-hidden"
     >
-      <style>{`
-        @keyframes profile-ripple {
-          0%   { transform: scale(1);   opacity: 0.55; }
-          100% { transform: scale(2.4); opacity: 0;    }
-        }
-        .profile-ripple-ring {
-          position: absolute;
-          inset: 0;
-          border-radius: 9999px;
-          border: 1px solid hsl(0 0% 96% / 0.35);
-          animation: profile-ripple ${RIPPLE_DURATION}s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
-          pointer-events: none;
-        }
-        @keyframes status-pulse {
-          0%, 100% { opacity: 1;   transform: scale(1);   }
-          50%       { opacity: 0.4; transform: scale(1.5); }
-        }
-        .status-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 9999px;
-          background: #4ade80;
-          flex-shrink: 0;
-          animation: status-pulse 2s ease-in-out infinite;
-        }
-      `}</style>
 
       {/* Background ambient elements */}
       <div className="absolute inset-0 pointer-events-none">

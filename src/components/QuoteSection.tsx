@@ -122,6 +122,8 @@ export const QuoteSection = () => {
       clearTimeout(t1);
       clearInterval(interval);
     };
+  // scatter is a useMemo with [] — stable reference, safe to omit from deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInView]);
 
   useEffect(() => {

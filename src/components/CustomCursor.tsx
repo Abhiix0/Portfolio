@@ -60,6 +60,8 @@ export const CustomCursor = () => {
       window.removeEventListener('mouseover', handleMouseOver);
       timeoutIds.forEach(clearTimeout);
     };
+  // glowX and glowY are useMotionValue instances — stable object references, safe to omit
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
