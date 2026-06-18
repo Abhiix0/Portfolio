@@ -9,6 +9,7 @@ import "./index.css";
 
 // IMPORTANT: ScrollTrigger must be registered here once, globally, before any component mounts.
 // Do not remove or move this registration.
+// NOTE: If the useGSAP hook is needed in future, reinstall @gsap/react and import { useGSAP } from '@gsap/react'.
 gsap.registerPlugin(ScrollTrigger);
 
 createRoot(document.getElementById("root")!).render(<App />);

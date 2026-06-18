@@ -17,7 +17,8 @@ const Index = () => {
 
   useEffect(() => {
     const handler = (e: Event) => {
-      setIsModalOpen((e as CustomEvent).detail.open);
+      if (!(e instanceof CustomEvent)) return;
+      setIsModalOpen((e as CustomEvent<{ open: boolean }>).detail.open);
     };
     window.addEventListener('modalStateChange', handler);
     return () => window.removeEventListener('modalStateChange', handler);

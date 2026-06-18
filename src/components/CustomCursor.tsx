@@ -1,17 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-
-interface Ripple {
-  id: number;
-  x: number;
-  y: number;
-}
-
-interface Trail {
-  id: number;
-  x: number;
-  y: number;
-}
+import type { Ripple, Trail } from '@/types';
 
 export const CustomCursor = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
