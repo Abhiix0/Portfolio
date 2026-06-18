@@ -6,21 +6,30 @@ import { ProjectCard } from './ProjectCard';
 const projects = [
   {
     id: 1,
-    title: 'AI Data Analyst',
-    description: 'Built a multi-agent analysis pipeline that turns raw data into structured insight — no code required.',
+    title: 'Spawn',
+    description: 'A developer CLI that eliminates repetitive Python project setup and creates production-ready environments in seconds.',
     longDescription:
-      'Designed and built a multi-agent data analysis tool using Python and Streamlit. Drop in any CSV or Excel file and the system handles everything — automated profiling, interactive visualizations, and LLM-generated insights via Groq API. A free-form chat interface lets you ask questions about your data directly. Built on a strict pipeline architecture: each agent owns exactly one responsibility — profiling, visualization, insight generation, recommendations, and report assembly. Includes Kaggle API integration for fetching public datasets and a rule-based fallback when the LLM is unavailable. The goal was simple: make data accessible to anyone, not just people who can write code.',
-    tags: ['Python', 'Streamlit', 'Multi-Agent', 'LLM', 'Groq', 'Pandas'],
-    github: 'https://github.com/Abhiix0/AI-Data-Analyst',
+      'Spawn is a local command-line tool that transforms a single command into a fully structured Python development environment. It automates project scaffolding, Git initialization, virtual environment creation, GitHub publishing, and template generation for common workflows like FastAPI, Data Science, and Machine Learning.\n\nBuilt with Python, Typer, and Rich, Spawn focuses on developer experience through interactive prompts, clear terminal interfaces, and automated setup flows. It also includes a project auditing system called `spawn doctor`, which analyzes repository health and scores projects across documentation, testing, deployment, and configuration best practices.',
+    tags: ['Python', 'CLI Development', 'Typer', 'Rich', 'Developer Tools', 'Automation'],
+    github: 'https://github.com/Abhiix0/Spawn',
   },
   {
     id: 2,
-    title: 'Data Insight Lab',
-    description: 'Designed Power BI dashboards that surface patterns in real-world data — built for clarity, not decoration.',
+    title: 'Placement Intelligence System (PIS)',
+    description: 'An ML-powered platform that evaluates placement readiness using real coding activity, GitHub signals, and predictive analytics.',
     longDescription:
-      'A series of Power BI dashboards built on real, messy datasets — Tech Layoffs (workforce reduction patterns across companies, industries, and time), Streaming Content Analysis (genre trends, production countries, runtime shifts, and content growth), and Airline Flight Delay Analysis (delay patterns, airport congestion, and operational bottlenecks). Each dashboard starts from a question a real person would ask, not from the data itself. Built with Power Query for transformation, DAX for calculated measures, and deliberate visual design to surface what matters. The measure of success: a non-technical stakeholder should be able to act on it without an explanation.',
-    tags: ['Power BI', 'DAX', 'Power Query', 'Data Visualization', 'Analytics'],
-    github: 'https://github.com/Abhiix0/data-insight-lab',
+      'PIS is a full-stack analytics platform that measures student placement readiness through a combination of SQL feature engineering, machine learning, and explainable insights. The system ingests coding activity, GitHub contribution data, academic performance, and behavioral metrics to generate readiness scores and personalized recommendations.\n\nThe architecture separates concerns across PostgreSQL, FastAPI, and Streamlit, with all feature computation performed directly inside SQL through optimized multi-CTE pipelines. A hybrid insight engine combines Random Forest feature importance with rule-based reasoning to produce recommendations that are both interpretable and data-driven.',
+    tags: ['Python', 'PostgreSQL', 'Machine Learning', 'FastAPI', 'Streamlit', 'Data Engineering'],
+    github: 'https://github.com/Abhiix0/PIS',
+  },
+  {
+    id: 3,
+    title: 'AI Data Analyst',
+    description: 'A multi-agent analytics system that turns raw datasets into insights, visualizations, and AI-generated reports.',
+    longDescription:
+      'AI Data Analyst is an agent-based analytics platform designed to automate the data analysis workflow. Users can upload datasets and receive intelligent summaries, exploratory analysis, statistical insights, and visual interpretations generated through coordinated AI agents.\n\nThe project orchestrates specialized agents responsible for data understanding, analysis, reasoning, and reporting, creating a workflow that mirrors how a human analyst approaches a problem. The focus is on reducing manual analysis effort while making data exploration faster, more accessible, and more actionable.',
+    tags: ['Python', 'Streamlit', 'Multi-Agent Systems', 'Data Analytics', 'AI Workflows', 'LLMs'],
+    github: 'https://github.com/Abhiix0/AI-Data-Analyst',
   },
 ];
 
@@ -93,12 +102,12 @@ export const ProjectsSection = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Things I've built — data pipelines, AI tools, dashboards that turn noise into decisions.
+            Things I've built — CLI tools, ML platforms, and AI systems that turn complex problems into working software.
           </motion.p>
         </div>
 
-        {/* 2-card grid — centered on desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 lg:max-w-4xl lg:mx-auto">
+        {/* 3-card grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
