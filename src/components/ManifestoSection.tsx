@@ -19,7 +19,7 @@ const RIPPLE_DURATION = 3;
 const floatingLabels = [
   {
     id: 'year',
-    text: '2nd Year',
+    text: '3rd Year',
     // top-left, above and to the left
     top: '-14px',
     left: '-90px',
