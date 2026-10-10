@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useScroll } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HeroSection } from '@/components/HeroSection';
@@ -17,46 +17,47 @@ const Index = () => {
 
   useEffect(() => {
     const handler = (e: Event) => {
-      setIsModalOpen((e as CustomEvent).detail.open);
+      if (!(e instanceof CustomEvent)) return;
+      setIsModalOpen((e as CustomEvent<{ open: boolean }>).detail.open);
     };
     window.addEventListener('modalStateChange', handler);
     return () => window.removeEventListener('modalStateChange', handler);
   }, []);
 
   useEffect(() => {
-    // Smooth scroll behavior
     document.documentElement.style.scrollBehavior = 'smooth';
 
-    // GSAP ScrollTrigger refresh on load
-    ScrollTrigger.refresh();
+    const ctx = gsap.context(() => {
+      // Defer refresh so child component effects have already registered their triggers
+      requestAnimationFrame(() => ScrollTrigger.refresh());
 
-    // Section transition effects
-    const sections = document.querySelectorAll('section');
-    sections.forEach((section) => {
-      gsap.fromTo(
-        section,
-        { opacity: 0.8 },
-        {
-          opacity: 1,
-          duration: 0.5,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            end: "top 20%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    });
+      // Section transition effects
+      const sections = document.querySelectorAll('section');
+      sections.forEach((section) => {
+        gsap.fromTo(
+          section,
+          { opacity: 0.8 },
+          {
+            opacity: 1,
+            duration: 0.5,
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 80%',
+              end: 'top 20%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
+      });
+    }, mainRef);
 
     return () => {
       document.documentElement.style.scrollBehavior = 'auto';
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ctx.revert(); // Only kills triggers created inside this context
     };
   }, []);
 
   return (
-    <AnimatePresence>
       <motion.div
         ref={mainRef}
         initial={{ opacity: 0 }}
@@ -72,12 +73,14 @@ const Index = () => {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
+          aria-hidden={isModalOpen ? true : undefined}
         >
           <motion.a
             href="#"
             className="text-lg font-medium text-foreground tracking-tight"
             whileHover={{ scale: 1.05 }}
             data-magnetic
+            tabIndex={isModalOpen ? -1 : undefined}
           >
             ASG
           </motion.a>
@@ -96,6 +99,7 @@ const Index = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                 whileHover={{ y: -2 }}
+                tabIndex={isModalOpen ? -1 : undefined}
               >
                 {item.label}
                 <motion.span
@@ -135,6 +139,7 @@ const Index = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
+          aria-hidden={true}
         >
           <div className="w-px h-24 bg-border/30 relative overflow-hidden rounded-full">
             <motion.div
@@ -148,7 +153,6 @@ const Index = () => {
           </div>
         </motion.div>
       </motion.div>
-    </AnimatePresence>
   );
 };
 

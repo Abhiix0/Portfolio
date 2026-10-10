@@ -1,16 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github } from 'lucide-react';
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  longDescription: string;
-  tags: string[];
-  link?: string;
-  github?: string;
-}
+import type { Project } from '@/types';
 
 interface ProjectCardProps {
   project: Project;

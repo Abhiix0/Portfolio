@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, Github, Linkedin, ArrowUpRight } from 'lucide-react';
 
@@ -8,19 +8,19 @@ const socialLinks = [
   { icon: Mail, label: 'Email', href: 'mailto:abhinavsai039@gmail.com' },
 ];
 
-const chronoParticles = Array.from({ length: 12 }, (_, i) => ({
-  id: i,
-  x: Math.random() * 100,
-  y: Math.random() * 100,
-  size: Math.random() * 4 + 2,
-  duration: Math.random() * 6 + 4,
-  color: `hsl(0 0% ${50 + Math.random() * 30}% / 0.3)`,
-}));
-
 export const ContactSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+
+  const chronoParticles = useMemo(() => Array.from({ length: 12 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 4 + 2,
+    duration: Math.random() * 6 + 4,
+    color: `hsl(0 0% ${50 + Math.random() * 30}% / 0.3)`,
+  })), []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {

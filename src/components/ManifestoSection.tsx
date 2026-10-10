@@ -1,6 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import gsap from 'gsap';
 import profileImage from '@/assets/profile-portrait.png';
 
 const innerParticles = Array.from({ length: 8 }, (_, i) => ({
@@ -20,7 +19,7 @@ const RIPPLE_DURATION = 3;
 const floatingLabels = [
   {
     id: 'year',
-    text: '2nd Year',
+    text: '3rd Year',
     // top-left, above and to the left
     top: '-14px',
     left: '-90px',
@@ -71,62 +70,11 @@ export const ManifestoSection = () => {
   const [isHoveringProfile, setIsHoveringProfile] = useState(false);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.manifesto-text',
-        { opacity: 0, x: 50 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1,
-          stagger: 0.15,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
       ref={sectionRef}
       className="relative min-h-screen py-32 flex items-center section-ambient overflow-hidden"
     >
-      <style>{`
-        @keyframes profile-ripple {
-          0%   { transform: scale(1);   opacity: 0.55; }
-          100% { transform: scale(2.4); opacity: 0;    }
-        }
-        .profile-ripple-ring {
-          position: absolute;
-          inset: 0;
-          border-radius: 9999px;
-          border: 1px solid hsl(0 0% 96% / 0.35);
-          animation: profile-ripple ${RIPPLE_DURATION}s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
-          pointer-events: none;
-        }
-        @keyframes status-pulse {
-          0%, 100% { opacity: 1;   transform: scale(1);   }
-          50%       { opacity: 0.4; transform: scale(1.5); }
-        }
-        .status-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 9999px;
-          background: #4ade80;
-          flex-shrink: 0;
-          animation: status-pulse 2s ease-in-out infinite;
-        }
-      `}</style>
 
       {/* Background ambient elements */}
       <div className="absolute inset-0 pointer-events-none">

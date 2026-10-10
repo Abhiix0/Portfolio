@@ -22,15 +22,6 @@ export const BubbleField = () => {
         zIndex: 1,
       }}
     >
-      <style>{`
-        @keyframes bubble-rise {
-          0%   { transform: translateY(0px);      opacity: 0;    }
-          8%   { opacity: var(--bop);              }
-          85%  { opacity: var(--bop);              }
-          100% { transform: translateY(-110vh);    opacity: 0;    }
-        }
-      `}</style>
-
       {bubbles.map((b) => (
         <div
           key={b.id}

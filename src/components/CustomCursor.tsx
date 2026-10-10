@@ -1,40 +1,45 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-interface Ripple {
-  id: number;
-  x: number;
-  y: number;
-}
-
-interface Trail {
-  id: number;
-  x: number;
-  y: number;
-}
+import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import type { Ripple, Trail } from '@/types';
+import { useMousePosition } from '@/contexts/MouseContext';
 
 export const CustomCursor = () => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const mousePos = useMousePosition();
   const [isHovering, setIsHovering] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [trails, setTrails] = useState<Trail[]>([]);
   const trailIdRef = useRef(0);
   const lastTrailTime = useRef(0);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+  const glowX = useMotionValue(0);
+  const glowY = useMotionValue(0);
+  const springGlowX = useSpring(glowX, { stiffness: 200, damping: 20 });
+  const springGlowY = useSpring(glowY, { stiffness: 200, damping: 20 });
 
-      // Add trail particle with throttling
+  // Sync glow motion values with latest mouse position
+  useEffect(() => {
+    glowX.set(mousePos.x - 40);
+    glowY.set(mousePos.y - 40);
+  // glowX and glowY are useMotionValue instances — stable object references, safe to omit
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mousePos.x, mousePos.y]);
+
+  useEffect(() => {
+    const timeoutIds: ReturnType<typeof setTimeout>[] = [];
+
+    const handleMouseMove = (e: MouseEvent) => {
+      // Trail throttling — mousePos comes from context, only trail logic needed here
       const now = Date.now();
       if (now - lastTrailTime.current > 30) {
         lastTrailTime.current = now;
         const newTrail = { id: trailIdRef.current++, x: e.clientX, y: e.clientY };
         setTrails((prev) => [...prev.slice(-15), newTrail]);
-        
-        setTimeout(() => {
+
+        const id = setTimeout(() => {
           setTrails((prev) => prev.filter((t) => t.id !== newTrail.id));
         }, 400);
+
+        timeoutIds.push(id);
       }
     };
 
@@ -58,21 +63,31 @@ export const CustomCursor = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
+      timeoutIds.forEach(clearTimeout);
     };
   }, []);
 
-  const handleClick = useCallback((e: MouseEvent) => {
-    const newRipple = { id: Date.now(), x: e.clientX, y: e.clientY };
-    setRipples((prev) => [...prev, newRipple]);
-    setTimeout(() => {
-      setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
-    }, 800);
-  }, []);
-
   useEffect(() => {
+    const rippleTimeouts: ReturnType<typeof setTimeout>[] = [];
+
+    const handleClick = (e: MouseEvent) => {
+      const newRipple = { id: Date.now(), x: e.clientX, y: e.clientY };
+      setRipples((prev) => [...prev, newRipple]);
+
+      const id = setTimeout(() => {
+        setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
+      }, 800);
+
+      rippleTimeouts.push(id);
+    };
+
     window.addEventListener('click', handleClick);
-    return () => window.removeEventListener('click', handleClick);
-  }, [handleClick]);
+
+    return () => {
+      window.removeEventListener('click', handleClick);
+      rippleTimeouts.forEach(clearTimeout);
+    };
+  }, []);
 
   return (
     <>
@@ -137,11 +152,15 @@ export const CustomCursor = () => {
           <motion.div
             className="fixed pointer-events-none z-[9996] rounded-full hidden md:block"
             style={{
-              left: mousePos.x - 40,
-              top: mousePos.y - 40,
+              x: springGlowX,
+              y: springGlowY,
               width: 80,
               height: 80,
               background: 'radial-gradient(circle, hsl(0 0% 100% / 0.08) 0%, transparent 70%)',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              pointerEvents: 'none',
             }}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

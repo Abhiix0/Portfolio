@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useMousePosition } from '@/contexts/MouseContext';
 
 interface Particle {
   id: number;
@@ -24,9 +25,18 @@ interface LightStreak {
 export const ParticleField = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [lightStreaks, setLightStreaks] = useState<LightStreak[]>([]);
-  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const [viewH, setViewH] = useState(typeof window !== 'undefined' ? window.innerHeight : 800);
   const containerRef = useRef<HTMLDivElement>(null);
+  const rawMouse = useMousePosition();
+
+  // Compute container-relative mouse position (0–1 range) from raw global position
+  const rect = containerRef.current?.getBoundingClientRect();
+  const mousePos = rect
+    ? {
+        x: (rawMouse.x - rect.left) / rect.width,
+        y: (rawMouse.y - rect.top) / rect.height,
+      }
+    : { x: 0.5, y: 0.5 };
 
   useEffect(() => {
     // Generate floating particles
@@ -58,21 +68,6 @@ export const ParticleField = () => {
     const update = () => setViewH(window.innerHeight);
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
-  }, []);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setMousePos({
-          x: (e.clientX - rect.left) / rect.width,
-          y: (e.clientY - rect.top) / rect.height,
-        });
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
