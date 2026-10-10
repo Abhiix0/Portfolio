@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const bubbles = [
   { id: 0, x: 15,  size: 80,  duration: 20, delay: -5,  opacity: 0.5 },
@@ -12,8 +12,22 @@ const bubbles = [
 ];
 
 export const BubbleField = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [paused, setPaused] = useState(false);
+
+  // pause CSS animations while off-screen or tab hidden
+  useEffect(() => {
+    let visible = true;
+    const sync = () => setPaused(!visible || document.hidden);
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); });
+    io.observe(ref.current!);
+    document.addEventListener('visibilitychange', sync);
+    return () => { io.disconnect(); document.removeEventListener('visibilitychange', sync); };
+  }, []);
+
   return (
     <div
+      ref={ref}
       style={{
         position: 'absolute',
         inset: 0,
@@ -37,6 +51,7 @@ export const BubbleField = () => {
             boxShadow:    `0 0 ${Math.round(b.size * 0.25)}px rgba(255,255,255,${b.opacity * 0.3})`,
             ['--bop' as string]: b.opacity,
             animation:    `bubble-rise ${b.duration}s linear ${b.delay}s infinite`,
+            animationPlayState: paused ? 'paused' : 'running',
           } as React.CSSProperties}
         />
       ))}

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import gsap from 'gsap';
 import silhouetteImage from '@/assets/silhouette-headphones.png';
 import ambientAudio from '@/assets/ambient.mp3';
@@ -13,30 +13,18 @@ export const HeroSection = () => {
   const textRef       = useRef<HTMLDivElement>(null);
   const audioRef      = useRef<HTMLAudioElement | null>(null);
 
-  const [mousePos,       setMousePos]       = useState({ x: 0, y: 0 });
-  const [isHoveringText, setIsHoveringText] = useState<number | null>(null);
+  const pauseTimer    = useRef<ReturnType<typeof setTimeout>>();
+  const mouseX = useMotionValue(0), mouseY = useMotionValue(0);
+  const parallaxX = useSpring(mouseX, { stiffness: 40, damping: 15 });
+  const parallaxY = useSpring(mouseY, { stiffness: 40, damping: 15 });
   const [isPlaying,      setIsPlaying]      = useState(false);
   const [hiddenChar,     setHiddenChar]     = useState<number | null>(null);
 
   // ── audio ─────────────────────────────────────────────────────────────────
-  useEffect(() => {
-    // Clean up any pre-existing instance (Strict Mode double-invoke guard)
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.src = '';
-      audioRef.current = null;
-    }
-
-    const audio = new Audio(ambientAudio);
-    audio.loop = true;
-    audio.volume = 0;
-    audioRef.current = audio;
-
-    return () => {
-      audio.pause();
-      audio.src = '';
-      audioRef.current = null;
-    };
+  useEffect(() => () => {
+    clearTimeout(pauseTimer.current);
+    audioRef.current?.pause();
+    audioRef.current = null;
   }, []);
 
   const fadeVolume = (target: number, duration = 1200) => {
@@ -52,12 +40,19 @@ export const HeroSection = () => {
   };
 
   const handlePlayToggle = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    clearTimeout(pauseTimer.current);
     if (isPlaying) {
-      fadeVolume(0, 800); setTimeout(() => audio.pause(), 850); setIsPlaying(false);
+      const audio = audioRef.current;
+      fadeVolume(0, 800); pauseTimer.current = setTimeout(() => audio?.pause(), 850); setIsPlaying(false);
     } else {
-      audio.play(); fadeVolume(0.55, 1200); setIsPlaying(true);
+      if (!audioRef.current) {
+        const audio = new Audio(ambientAudio);
+        audio.loop = true;
+        audio.volume = 0;
+        audioRef.current = audio;
+      }
+      audioRef.current.play().catch(() => {});
+      fadeVolume(0.55, 1200); setIsPlaying(true);
     }
   };
 
@@ -84,7 +79,8 @@ export const HeroSection = () => {
     const onMove = (e: MouseEvent) => {
       if (!containerRef.current) return;
       const r = containerRef.current.getBoundingClientRect();
-      setMousePos({ x: (e.clientX - r.left - r.width / 2) / r.width, y: (e.clientY - r.top - r.height / 2) / r.height });
+      mouseX.set((e.clientX - r.left - r.width / 2) / r.width * 20);
+      mouseY.set((e.clientY - r.top - r.height / 2) / r.height * 15);
     };
     window.addEventListener('mousemove', onMove);
     return () => window.removeEventListener('mousemove', onMove);
@@ -103,7 +99,7 @@ export const HeroSection = () => {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{
         position: 'relative',
-        opacity: springOpacity, scale,
+        opacity: springOpacity, scale, willChange: 'transform, opacity, filter',
         filter: blurFilter,
         background: 'linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 0%) 40%, hsl(0 0% 0%) 100%)',
       }}
@@ -124,31 +120,21 @@ export const HeroSection = () => {
               initial={{ opacity: 0, y: 60, filter: 'blur(12px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: 0.9, delay: 0.6 + line.delay, ease: [0.22, 1, 0.36, 1] }}
-              onMouseEnter={() => setIsHoveringText(index)}
-              onMouseLeave={() => { setIsHoveringText(null); setHiddenChar(null); }}
+              onMouseLeave={() => setHiddenChar(null)}
             >
               <h1
-                className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-tight transition-all duration-300 text-balance ${
+                className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-[-0.02em] leading-tight transition-all duration-300 text-balance ${index !== 1 ? 'hover:tracking-[0.02em] hover:scale-[1.02]' : ''} ${
                   index === 1 ? 'text-gradient font-medium' : index === 0 ? 'text-foreground/95' : 'text-foreground/60'
                 }`}
-                style={{
-                  letterSpacing: isHoveringText === index && index !== 1 ? '0.02em' : '-0.02em',
-                  transform:     isHoveringText === index && index !== 1 ? 'scale(1.02)' : 'scale(1)',
-                }}
               >
                 {line.text.split('').map((char, charIndex) => (
-                  <motion.span
+                  <span
                     key={charIndex}
-                    className="inline-block"
-                    {...(index === 1
-                      ? {
-                          onMouseEnter: () => setHiddenChar(charIndex),
-                          style: { opacity: hiddenChar === charIndex ? 0 : 1 },
-                        }
-                      : { whileHover: { scale: 1.15, y: -3, transition: { duration: 0.15, ease: 'easeOut' } } })}
+                    className={index === 1 ? 'inline-block' : 'inline-block transition-transform duration-150 ease-out hover:scale-[1.15] hover:-translate-y-[3px]'}
+                    {...(index === 1 ? { onMouseEnter: () => setHiddenChar(charIndex), style: { opacity: hiddenChar === charIndex ? 0 : 1 } } : {})}
                   >
-                    {char === ' ' ? '\u00A0' : char}
-                  </motion.span>
+                    {char === ' ' ? ' ' : char}
+                  </span>
                 ))}
               </h1>
             </motion.div>
@@ -171,26 +157,27 @@ export const HeroSection = () => {
 
       {/* Silhouette — RIGHT — clean, no bubble layering issues */}
       <motion.div
-        ref={silhouetteRef}
         className="absolute right-8 md:right-16 xl:right-24 2xl:right-32 bottom-8 md:bottom-16 w-[85%] md:w-[40%] xl:w-[35%] 2xl:w-[30%] h-[70vh] pointer-events-none"
         style={{ y: springY }}
       >
         {/* Rounded container — bg-black clips the inverted PNG white background */}
+        <div ref={silhouetteRef} className="absolute inset-0">
         <div className="absolute inset-0 rounded-3xl overflow-hidden bg-black">
           <motion.div
             className="relative w-full h-full flex items-end justify-center pb-8"
-            animate={{ x: mousePos.x * 20, y: mousePos.y * 15 }}
-            transition={{ type: 'spring', stiffness: 40, damping: 15 }}
+            style={{ x: parallaxX, y: parallaxY }}
           >
             <motion.img
               src={silhouetteImage}
               alt="Silhouette"
+              decoding="async"
               className="h-full w-full object-contain object-bottom select-none mix-blend-lighten"
               style={{ filter: 'invert(1)' }}
               whileHover={{ scale: 1.02 }}
               data-magnetic
             />
           </motion.div>
+        </div>
         </div>
       </motion.div>
 

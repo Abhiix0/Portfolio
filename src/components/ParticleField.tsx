@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useMousePosition } from '@/contexts/MouseContext';
 
@@ -70,35 +70,9 @@ export const ParticleField = () => {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  return (
-    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Cursor-following ambient gradient */}
-      <motion.div
-        className="absolute inset-0 transition-all duration-700 ease-out"
-        style={{
-          background: `radial-gradient(ellipse 50% 50% at ${mousePos.x * 100}% ${mousePos.y * 100}%, hsl(0 0% 18% / 0.4) 0%, transparent 60%)`,
-        }}
-      />
-
-      {/* Secondary ambient orb */}
-      <motion.div
-        className="absolute w-96 h-96 rounded-full blur-3xl"
-        style={{
-          background: 'radial-gradient(circle, hsl(0 0% 15% / 0.3) 0%, transparent 70%)',
-          left: `${mousePos.x * 60 + 20}%`,
-          top: `${mousePos.y * 60 + 20}%`,
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-
+  // mouse updates re-render this component; keep the 65 animated nodes stable
+  const layers = useMemo(() => (
+    <>
       {/* Light streaks */}
       {lightStreaks.map((streak) => (
         <motion.div
@@ -147,6 +121,40 @@ export const ParticleField = () => {
           }}
         />
       ))}
+
+    </>
+  ), [particles, lightStreaks, viewH]);
+
+  return (
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Cursor-following ambient gradient */}
+      <motion.div
+        className="absolute inset-0 transition-all duration-700 ease-out"
+        style={{
+          background: `radial-gradient(ellipse 50% 50% at ${mousePos.x * 100}% ${mousePos.y * 100}%, hsl(0 0% 18% / 0.4) 0%, transparent 60%)`,
+        }}
+      />
+
+      {/* Secondary ambient orb */}
+      <motion.div
+        className="absolute w-96 h-96 rounded-full blur-3xl"
+        style={{
+          background: 'radial-gradient(circle, hsl(0 0% 15% / 0.3) 0%, transparent 70%)',
+          left: `${mousePos.x * 60 + 20}%`,
+          top: `${mousePos.y * 60 + 20}%`,
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {layers}
 
       {/* Cursor-responsive light streak */}
       <motion.div
