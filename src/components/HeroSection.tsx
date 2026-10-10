@@ -16,6 +16,7 @@ export const HeroSection = () => {
   const [mousePos,       setMousePos]       = useState({ x: 0, y: 0 });
   const [isHoveringText, setIsHoveringText] = useState<number | null>(null);
   const [isPlaying,      setIsPlaying]      = useState(false);
+  const [hiddenChar,     setHiddenChar]     = useState<number | null>(null);
 
   // ── audio ─────────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -110,19 +111,28 @@ export const HeroSection = () => {
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: 0.9, delay: 0.6 + line.delay, ease: [0.22, 1, 0.36, 1] }}
               onMouseEnter={() => setIsHoveringText(index)}
-              onMouseLeave={() => setIsHoveringText(null)}
+              onMouseLeave={() => { setIsHoveringText(null); setHiddenChar(null); }}
             >
               <h1
                 className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-tight transition-all duration-300 text-balance ${
                   index === 1 ? 'text-gradient font-medium' : index === 0 ? 'text-foreground/95' : 'text-foreground/60'
                 }`}
                 style={{
-                  letterSpacing: isHoveringText === index ? '0.02em' : '-0.02em',
-                  transform:     isHoveringText === index ? 'scale(1.02)' : 'scale(1)',
+                  letterSpacing: isHoveringText === index && index !== 1 ? '0.02em' : '-0.02em',
+                  transform:     isHoveringText === index && index !== 1 ? 'scale(1.02)' : 'scale(1)',
                 }}
               >
                 {line.text.split('').map((char, charIndex) => (
-                  <motion.span key={charIndex} className="inline-block" whileHover={{ scale: 1.15, y: -3, transition: { duration: 0.15, ease: 'easeOut' } }}>
+                  <motion.span
+                    key={charIndex}
+                    className="inline-block"
+                    {...(index === 1
+                      ? {
+                          onMouseEnter: () => setHiddenChar(charIndex),
+                          style: { opacity: hiddenChar === charIndex ? 0 : 1 },
+                        }
+                      : { whileHover: { scale: 1.15, y: -3, transition: { duration: 0.15, ease: 'easeOut' } } })}
+                  >
                     {char === ' ' ? '\u00A0' : char}
                   </motion.span>
                 ))}
