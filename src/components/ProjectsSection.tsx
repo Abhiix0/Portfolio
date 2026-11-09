@@ -61,7 +61,7 @@ export const ProjectsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-20 lg:pb-24"
+      className="relative min-h-screen pt-8 md:pt-12 lg:pt-16 pb-0"
       style={{ 
         zIndex: 1,
       }}
@@ -80,7 +80,7 @@ export const ProjectsSection = () => {
         <div 
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to bottom, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.85) 30%, rgba(8,8,8,0.75) 60%, rgba(8,8,8,0.65) 100%)',
+            background: 'linear-gradient(to bottom, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.85) 30%, rgba(8,8,8,0.75) 60%, rgba(8,8,8,0.65) 85%, rgba(8,8,8,0.5) 100%)',
           }}
         />
         
@@ -91,17 +91,9 @@ export const ProjectsSection = () => {
             background: 'linear-gradient(to bottom, #080808 0%, transparent 100%)',
           }}
         />
-        
-        {/* Smooth bottom edge blend */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-32"
-          style={{
-            background: 'linear-gradient(to top, #080808 0%, transparent 100%)',
-          }}
-        />
       </div>
 
-      <div className="container px-4 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto">
+      <div className="container px-4 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto pb-16 md:pb-20 lg:pb-24">
         {/* Section header */}
         <div className="projects-header mb-8 md:mb-10 lg:mb-12">
           <motion.span
@@ -131,12 +123,26 @@ export const ProjectsSection = () => {
         </div>
 
         {/* 3-card grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} isInView={isInView} />
           ))}
         </div>
       </div>
+
+      {/* Extended leaf heap transition zone - allows leaves to flow into Contact section */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 pointer-events-none z-0"
+        style={{
+          height: '40vh',
+          backgroundImage: `url(${heapBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center bottom',
+          backgroundRepeat: 'no-repeat',
+          maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 15%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0) 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 15%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0) 100%)',
+        }}
+      />
     </section>
   );
 };
