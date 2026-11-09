@@ -71,8 +71,8 @@ export const QuoteSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[100svh] flex items-center overflow-hidden"
-      style={{ background: '#080808' }}
+      className="relative min-h-[100svh] flex items-center"
+      style={{ background: '#080808', overflow: 'visible' }}
     >
       {/* ── Background Image with Slow Zoom ── */}
       <motion.div
@@ -130,9 +130,16 @@ export const QuoteSection = () => {
         }}
       />
 
-      {/* ── Falling Maple Leaves ── */}
+      {/* ── Falling Maple Leaves (Extended Container) ── */}
       {isInView && (
-        <div className="absolute inset-0 z-20 pointer-events-none">
+        <div 
+          className="absolute left-0 right-0 pointer-events-none" 
+          style={{ 
+            top: 0, 
+            height: '150vh', // Extends beyond section into Projects
+            zIndex: 20 
+          }}
+        >
           <FallingLeaves
             count={isMobile ? 12 : 22}
             shapes={['maple']}
@@ -147,11 +154,13 @@ export const QuoteSection = () => {
             respectReducedMotion={true}
             autoStart={true}
           />
-          {/* Subtle fade mask for leaves at bottom */}
+          {/* Progressive fade - starts deeper in Projects section */}
           <div
-            className="absolute bottom-0 left-0 w-full h-32 pointer-events-none"
+            className="absolute left-0 right-0 pointer-events-none"
             style={{
-              background: 'linear-gradient(to top, rgba(8,8,8,1) 0%, transparent 100%)',
+              top: '120vh', // Starts fade well into Projects
+              height: '30vh',
+              background: 'linear-gradient(to bottom, transparent 0%, rgba(8,8,8,0.7) 50%, rgba(8,8,8,1) 100%)',
             }}
           />
         </div>

@@ -61,7 +61,7 @@ export const ProjectsSection = () => {
     <section
       ref={sectionRef}
       className="relative min-h-screen py-20 md:py-28 lg:py-36"
-      style={{ background: '#080808' }}
+      style={{ background: '#080808', zIndex: 1 }}
     >
       {/* Subtle ambient glow continuation from Autumn Walk */}
       <div
