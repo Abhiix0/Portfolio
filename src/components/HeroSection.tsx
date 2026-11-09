@@ -58,10 +58,10 @@ export const HeroSection = () => {
 
   // ── scroll ────────────────────────────────────────────────────────────────
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end start'] });
-  const y       = useTransform(scrollYProgress, [0, 1], [0, 250]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const scale   = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
-  const blur    = useTransform(scrollYProgress, [0, 0.5], [0, 8]);
+  const y       = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6, 0.85], [1, 0.7, 0]);
+  const scale   = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
+  const blur    = useTransform(scrollYProgress, [0.3, 0.7], [0, 2.5]);
   const blurFilter = useTransform(blur, (v) => `blur(${v}px)`);
   const springY       = useSpring(y,       { stiffness: 80,  damping: 25 });
   const springOpacity = useSpring(opacity, { stiffness: 100, damping: 30 });
@@ -183,6 +183,15 @@ export const HeroSection = () => {
 
       {/* Ambient gradient left */}
       <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none" style={{ background: 'radial-gradient(ellipse at 20% 40%, hsl(0 0% 8% / 0.5) 0%, transparent 70%)' }} />
+
+      {/* Bottom transition gradient - seamless blend into About section */}
+      <motion.div
+        className="absolute bottom-0 left-0 w-full h-[40vh] pointer-events-none z-20"
+        style={{
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(8,8,8,0.3) 30%, rgba(8,8,8,0.7) 60%, #080808 100%)',
+          opacity: scrollYProgress,
+        }}
+      />
     </motion.section>
   );
 };

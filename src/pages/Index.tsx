@@ -31,19 +31,20 @@ const Index = () => {
       // Defer refresh so child component effects have already registered their triggers
       requestAnimationFrame(() => ScrollTrigger.refresh());
 
-      // Section transition effects
-      const sections = document.querySelectorAll('section');
+      // Subtle section fade-in on scroll (excluding Hero which has its own animation)
+      const sections = document.querySelectorAll('section:not(:first-child)');
       sections.forEach((section) => {
         gsap.fromTo(
           section,
-          { opacity: 0.8 },
+          { opacity: 0.85 },
           {
             opacity: 1,
-            duration: 0.5,
+            duration: 0.8,
+            ease: 'power2.out',
             scrollTrigger: {
               trigger: section,
-              start: 'top 80%',
-              end: 'top 20%',
+              start: 'top 75%',
+              end: 'top 30%',
               toggleActions: 'play none none reverse',
             },
           }
