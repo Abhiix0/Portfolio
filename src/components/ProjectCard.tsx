@@ -1,18 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Github } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, ExternalLink, Github, ArrowUpRight } from 'lucide-react';
 import type { Project } from '@/types';
 
 interface ProjectCardProps {
   project: Project;
   index: number;
+  isInView: boolean;
 }
 
-export const ProjectCard = ({ project, index }: ProjectCardProps) => {
+export const ProjectCard = ({ project, index, isInView }: ProjectCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  const [particles, setParticles] = useState<{ id: number; x: number; y: number }[]>([]);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -27,168 +27,114 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
     };
   }, [isExpanded]);
 
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 40 });
-  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 40 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
-  const glowX = useTransform(mouseXSpring, [-0.5, 0.5], ["0%", "100%"]);
-  const glowY = useTransform(mouseYSpring, [-0.5, 0.5], ["0%", "100%"]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-    setIsHovering(false);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovering(true);
-    const newParticles = Array.from({ length: 6 }, (_, i) => ({
-      id: Date.now() + i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-    }));
-    setParticles(newParticles);
-    setTimeout(() => setParticles([]), 800);
-  };
-
   return (
     <>
       <motion.div
         ref={cardRef}
-        className="relative h-64 md:h-80 cursor-pointer"
-        style={{ perspective: 1000 }}
-        initial={{ opacity: 0, y: 80 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.7, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        onMouseEnter={handleMouseEnter}
+        className="relative h-full cursor-pointer group"
+        initial={{ opacity: 0, y: 60 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, delay: 0.4 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
         onClick={() => setIsExpanded(true)}
         data-magnetic
       >
         <motion.div
-          className="w-full h-full card-ambient rounded-2xl p-5 md:p-8 flex flex-col justify-between glow-border transition-all duration-300 relative overflow-hidden"
+          className="h-full rounded-2xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300"
           style={{
-            rotateX,
-            rotateY,
-            transformStyle: "preserve-3d",
+            background: '#101010',
+            border: '1px solid rgba(255,255,255,0.08)',
           }}
           whileHover={{
-            boxShadow: "0 30px 60px -15px hsl(0 0% 0% / 0.9), 0 0 100px -25px hsl(0 0% 35% / 0.4)",
+            borderColor: 'rgba(255,255,255,0.15)',
+            boxShadow: '0 20px 40px -15px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)',
           }}
         >
-          {/* Particle burst on hover */}
-          <AnimatePresence>
-            {particles.map((particle) => (
-              <motion.div
-                key={particle.id}
-                className="absolute w-1 h-1 bg-foreground/60 rounded-full pointer-events-none"
-                style={{
-                  left: `${particle.x}%`,
-                  top: `${particle.y}%`,
-                }}
-                initial={{ scale: 0, opacity: 1 }}
-                animate={{ scale: 3, opacity: 0, x: (particle.x - 50) * 2, y: (particle.y - 50) * 2 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              />
-            ))}
-          </AnimatePresence>
-
-          {/* Dynamic glow following cursor */}
+          {/* Subtle hover gradient */}
           <motion.div
-            className="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300"
+            className="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500"
             style={{
-              opacity: isHovering ? 0.6 : 0,
-              background: `radial-gradient(circle at ${glowX} ${glowY}, hsl(0 0% 30% / 0.3) 0%, transparent 50%)`,
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 60%)',
+              opacity: isHovering ? 1 : 0,
             }}
           />
 
-          {/* Edge glow lines */}
-          <motion.div
-            className="absolute inset-0 pointer-events-none rounded-2xl"
-            style={{
-              opacity: isHovering ? 1 : 0,
-              transition: 'opacity 0.3s',
-            }}
-          >
-            <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-foreground/30 to-transparent" />
-            <div className="absolute bottom-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
-          </motion.div>
-
           {/* Project number */}
-          <motion.span
-            className="text-4xl md:text-6xl font-light text-muted-foreground/20 select-none"
-            style={{ transform: "translateZ(30px)" }}
+          <motion.div
+            className="text-6xl md:text-7xl font-light select-none mb-6"
+            style={{ color: '#353535' }}
+            animate={{ color: isHovering ? '#454545' : '#353535' }}
+            transition={{ duration: 0.3 }}
           >
             {String(index + 1).padStart(2, '0')}
-          </motion.span>
+          </motion.div>
 
-          <div className="space-y-4" style={{ transform: "translateZ(20px)" }}>
+          <div className="flex-1 space-y-4">
+            {/* Project title */}
             <motion.h3
-              className="text-xl md:text-2xl font-medium text-foreground"
-              animate={{ x: isHovering ? 8 : 0 }}
+              className="text-2xl md:text-3xl font-medium"
+              style={{ color: '#EEEEEE' }}
+              animate={{ x: isHovering ? 4 : 0 }}
               transition={{ duration: 0.3 }}
             >
               {project.title}
             </motion.h3>
-            <p className="text-muted-foreground line-clamp-2">{project.description}</p>
 
-            <div className="relative flex flex-wrap gap-2">
-              {project.tags.map((tag, i) => (
-                <motion.span
-                  key={tag}
-                  className="px-3 py-1 text-xs bg-secondary/50 text-secondary-foreground rounded-full"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.1 * i }}
-                >
-                  {tag}
-                </motion.span>
-              ))}
-            </div>
+            {/* Project description */}
+            <p
+              className="text-sm md:text-base leading-relaxed line-clamp-3"
+              style={{ color: '#929292' }}
+            >
+              {project.description}
+            </p>
           </div>
 
-          {/* Hover indicator */}
+          {/* Technology tags */}
+          <div className="flex flex-wrap gap-2 mt-6 mb-4">
+            {project.tags.slice(0, 4).map((tag) => (
+              <span
+                key={tag}
+                className="px-3 py-1 text-xs rounded-full"
+                style={{
+                  background: '#191919',
+                  color: '#C5C5C5',
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+            {project.tags.length > 4 && (
+              <span
+                className="px-3 py-1 text-xs rounded-full"
+                style={{
+                  background: '#191919',
+                  color: '#C5C5C5',
+                }}
+              >
+                +{project.tags.length - 4}
+              </span>
+            )}
+          </div>
+
+          {/* Action indicator */}
           <motion.div
-            className="absolute bottom-4 right-4 w-12 h-12 rounded-full border border-border/30 flex items-center justify-center"
-            animate={{
-              opacity: isHovering ? 1 : 0.3,
-              scale: isHovering ? 1.1 : 1,
-              borderColor: isHovering ? 'hsl(0 0% 50%)' : 'hsl(0 0% 20%)',
-            }}
+            className="flex items-center justify-end"
+            animate={{ x: isHovering ? 4 : 0 }}
             transition={{ duration: 0.3 }}
           >
-            <motion.span
-              className="text-muted-foreground text-2xl"
-              animate={{ rotate: isHovering ? 90 : 0 }}
-              transition={{ duration: 0.3 }}
+            <motion.div
+              className="flex items-center gap-2 text-sm"
+              style={{ color: isHovering ? '#E58A43' : '#929292' }}
             >
-              +
-            </motion.span>
+              <span>View Details</span>
+              <ArrowUpRight size={16} />
+            </motion.div>
           </motion.div>
         </motion.div>
       </motion.div>
 
-      {/* Expanded overlay */}
+      {/* Expanded Modal - PRESERVED EXACTLY */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -249,7 +195,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
               </motion.h2>
 
               <motion.p
-                className="text-lg text-muted-foreground mt-6 leading-relaxed"
+                className="text-lg text-muted-foreground mt-6 leading-relaxed whitespace-pre-line"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}

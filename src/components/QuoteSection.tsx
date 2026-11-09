@@ -147,6 +147,13 @@ export const QuoteSection = () => {
             respectReducedMotion={true}
             autoStart={true}
           />
+          {/* Subtle fade mask for leaves at bottom */}
+          <div
+            className="absolute bottom-0 left-0 w-full h-32 pointer-events-none"
+            style={{
+              background: 'linear-gradient(to top, rgba(8,8,8,1) 0%, transparent 100%)',
+            }}
+          />
         </div>
       )}
 
@@ -173,11 +180,19 @@ export const QuoteSection = () => {
         }}
       />
 
-      {/* ── Gradient Fade Bottom ── */}
+      {/* ── Forest Fade to Darkness ── */}
       <div
-        className="absolute bottom-0 left-0 w-full h-40 pointer-events-none z-30"
+        className="absolute bottom-0 left-0 w-full h-[60%] pointer-events-none z-30"
         style={{
-          background: 'linear-gradient(to top, hsl(0 0% 2%) 0%, transparent 100%)',
+          background: 'linear-gradient(to top, #080808 0%, rgba(8,8,8,0.95) 15%, rgba(8,8,8,0.7) 35%, rgba(8,8,8,0.4) 55%, transparent 100%)',
+        }}
+      />
+
+      {/* ── Transition Ambient Glow ── */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-48 pointer-events-none z-25"
+        style={{
+          background: 'radial-gradient(ellipse 60% 40% at 50% 100%, rgba(198,93,37,0.03) 0%, transparent 70%)',
         }}
       />
     </section>
