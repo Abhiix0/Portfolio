@@ -2,65 +2,29 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import profileImage from '@/assets/profile-portrait.png';
 
-const innerParticles = Array.from({ length: 8 }, (_, i) => ({
-  id: i,
-  x: Math.random() * 80 + 10,
-  y: Math.random() * 80 + 10,
-  size: Math.random() * 3 + 1,
-  duration: Math.random() * 4 + 3,
-}));
+const RIPPLE_COUNT = 3;
+const RIPPLE_DURATION = 4;
 
-const RIPPLE_COUNT = 4;
-const RIPPLE_DURATION = 3;
-
-// Circle is w-80 = 320px on desktop, w-64 = 256px on mobile
-// Labels use absolute top/left with negative margins to sit OUTSIDE the circle
-// top/left are set relative to the profile wrapper div (which is sized to the circle)
-const floatingLabels = [
+const techStack = [
   {
-    id: 'year',
-    text: '3rd Year',
-    // top-left, above and to the left
-    top: '-14px',
-    left: '-90px',
-    driftX: 3,
-    driftY: 4,
-    duration: 5.2,
-    delay: 0,
+    category: 'LANGUAGES',
+    technologies: ['Python', 'JavaScript', 'TypeScript', 'SQL'],
   },
   {
-    id: 'field',
-    text: 'Data Science',
-    // top-right, above and to the right
-    top: '30px',
-    left: '290px',
-    driftX: -4,
-    driftY: 4,
-    duration: 6.1,
-    delay: 0.8,
+    category: 'BACKEND & DATABASES',
+    technologies: ['FastAPI', 'Node.js', 'Express', 'PostgreSQL', 'MongoDB'],
   },
   {
-    id: 'location',
-    text: 'Hyderabad, IN',
-    // bottom-left
-    top: '240px',
-    left: '-100px',
-    driftX: 4,
-    driftY: -3,
-    duration: 5.8,
-    delay: 1.4,
+    category: 'FRONTEND',
+    technologies: ['React', 'Next.js', 'Tailwind CSS'],
   },
   {
-    id: 'status',
-    text: 'Looking for internships',
-    // bottom-right
-    top: '270px',
-    left: '240px',
-    driftX: -3,
-    driftY: -4,
-    duration: 6.6,
-    delay: 0.4,
-    hasIndicator: true,
+    category: 'DATA & AI',
+    technologies: ['Pandas', 'NumPy', 'Scikit-learn', 'Machine Learning'],
+  },
+  {
+    category: 'TOOLS',
+    technologies: ['Git', 'GitHub', 'Docker', 'Typer', 'Rich', 'pytest'],
   },
 ];
 
@@ -73,142 +37,95 @@ export const ManifestoSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-32 flex items-center section-ambient overflow-hidden"
+      className="relative min-h-screen py-24 md:py-32 lg:py-40 flex items-center overflow-hidden"
+      style={{ background: '#080808' }}
     >
-
-      {/* Background ambient elements */}
+      {/* Subtle background ambient */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, hsl(0 0% 12% / 0.5) 0%, transparent 70%)' }}
-          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full blur-3xl"
+          style={{ background: 'radial-gradient(circle, hsl(0 0% 10% / 0.3) 0%, transparent 70%)' }}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         />
       </div>
 
-      <div className="container max-w-7xl mx-auto px-8 md:px-16 xl:px-24 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-
-          {/* Left: Profile with ripples + floating labels */}
+      <div className="container max-w-7xl mx-auto px-6 md:px-12 lg:px-20 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+          
+          {/* LEFT: Avatar with Orbital Rings (40% - 2 columns) */}
           <motion.div
             ref={profileRef}
-            className="relative flex justify-center lg:justify-start"
+            className="lg:col-span-2 relative flex justify-center lg:justify-start"
             initial={{ opacity: 0, x: -60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Sized exactly to the circle so labels offset from its edges */}
-            <div className="relative w-64 h-64 md:w-80 md:h-80">
+            <div className="relative w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96">
+              
+              {/* Warm ambient glow behind avatar */}
+              <motion.div
+                className="absolute inset-0 rounded-full blur-3xl pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle, rgba(198,93,37,0.08) 0%, rgba(229,138,67,0.04) 40%, transparent 70%)',
+                }}
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.4, 0.6, 0.4],
+                }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+              />
 
-              {/* Floating satellite labels — positioned relative to circle box */}
-              {floatingLabels.map((label) => (
-                <motion.div
-                  key={label.id}
-                  className="absolute z-20 hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-foreground/60 border border-border/50 backdrop-blur-sm"
-                  style={{
-                    top: label.top,
-                    left: label.left,
-                    background: 'hsl(0 0% 5% / 0.85)',
-                    whiteSpace: 'nowrap',
-                  }}
-                  initial={{ opacity: 0, scale: 0.7 }}
-                  animate={
-                    isInView
-                      ? {
-                          opacity: 1,
-                          scale: 1,
-                          y: [0, -label.driftY, 0, label.driftY, 0],
-                          x: [0, label.driftX, 0, -label.driftX, 0],
-                        }
-                      : { opacity: 0, scale: 0.7 }
-                  }
-                  transition={{
-                    opacity: { duration: 0.5, delay: 0.8 + label.delay },
-                    scale:   { duration: 0.5, delay: 0.8 + label.delay },
-                    y: {
-                      duration: label.duration,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      delay: label.delay,
-                    },
-                    x: {
-                      duration: label.duration * 1.15,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      delay: label.delay + 0.3,
-                    },
-                  }}
-                  whileHover={{ scale: 1.08, borderColor: 'hsl(0 0% 50%)' }}
-                >
-                  {label.hasIndicator && <span className="status-dot" />}
-                  {label.text}
-                </motion.div>
-              ))}
-
-              {/* Ripple rings + profile circle — fills the wrapper exactly */}
+              {/* Profile container with ripples */}
               <div
-                className="relative overflow-hidden lg:overflow-visible w-full h-full"
+                className="relative w-full h-full"
                 onMouseEnter={() => setIsHoveringProfile(true)}
                 onMouseLeave={() => setIsHoveringProfile(false)}
               >
-                {/* CSS ripple rings */}
+                {/* Simplified orbital ripple rings */}
                 {Array.from({ length: RIPPLE_COUNT }).map((_, i) => (
-                  <div
+                  <motion.div
                     key={i}
-                    className="profile-ripple-ring"
+                    className="absolute inset-0 rounded-full pointer-events-none"
                     style={{
-                      animationDelay: `-${(RIPPLE_DURATION / RIPPLE_COUNT) * i}s`,
+                      border: '1px solid rgba(255,255,255,0.06)',
+                    }}
+                    initial={{ scale: 1, opacity: 0 }}
+                    animate={{
+                      scale: [1, 1.8, 1],
+                      opacity: [0, 0.4, 0],
+                    }}
+                    transition={{
+                      duration: RIPPLE_DURATION,
+                      repeat: Infinity,
+                      delay: (RIPPLE_DURATION / RIPPLE_COUNT) * i,
+                      ease: 'easeInOut',
                     }}
                   />
                 ))}
 
                 {/* Profile image */}
                 <motion.div
-                  className="relative w-full h-full rounded-full overflow-hidden glow-border"
-                  animate={{
-                    scale: isHoveringProfile ? 1.05 : 1,
-                    boxShadow: isHoveringProfile
-                      ? '0 0 60px hsl(0 0% 40% / 0.3), inset 0 0 30px hsl(0 0% 0% / 0.5)'
-                      : '0 0 30px hsl(0 0% 20% / 0.2)',
+                  className="relative w-full h-full rounded-full overflow-hidden"
+                  style={{
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: '0 0 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.3)',
                   }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  animate={{
+                    scale: isHoveringProfile ? 1.03 : 1,
+                    borderColor: isHoveringProfile ? 'rgba(229,138,67,0.15)' : 'rgba(255,255,255,0.08)',
+                  }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
                   data-hover
                 >
-                  {/* Inner floating particles */}
-                  <div className="absolute inset-0 pointer-events-none">
-                    {innerParticles.map((particle) => (
-                      <motion.div
-                        key={particle.id}
-                        className="absolute rounded-full bg-foreground/20"
-                        style={{
-                          left: `${particle.x}%`,
-                          top: `${particle.y}%`,
-                          width: particle.size,
-                          height: particle.size,
-                        }}
-                        animate={{
-                          y: [-10, 10, -10],
-                          x: [-5, 5, -5],
-                          opacity: [0.2, 0.5, 0.2],
-                        }}
-                        transition={{
-                          duration: particle.duration,
-                          repeat: Infinity,
-                          ease: 'easeInOut',
-                          delay: particle.id * 0.3,
-                        }}
-                      />
-                    ))}
-                  </div>
-
                   {/* Vignette overlay */}
                   <motion.div
                     className="absolute inset-0 z-10 pointer-events-none"
                     style={{
-                      background: 'radial-gradient(circle, transparent 40%, hsl(0 0% 0% / 0.6) 100%)',
+                      background: 'radial-gradient(circle, transparent 35%, rgba(8,8,8,0.7) 100%)',
                     }}
-                    animate={{ opacity: isHoveringProfile ? 0.3 : 0.6 }}
-                    transition={{ duration: 0.4 }}
+                    animate={{ opacity: isHoveringProfile ? 0.4 : 0.7 }}
+                    transition={{ duration: 0.5 }}
                   />
 
                   <img
@@ -221,77 +138,99 @@ export const ManifestoSection = () => {
             </div>
           </motion.div>
 
-          {/* Right: Manifesto text */}
-          <div className="space-y-6 lg:space-y-10">
+          {/* RIGHT: Technical Stack (60% - 3 columns) */}
+          <div className="lg:col-span-3 space-y-8 lg:space-y-10">
+            
+            {/* Eyebrow */}
             <motion.span
-              className="manifesto-text text-sm tracking-widest uppercase text-muted-foreground block"
-              initial={{ opacity: 0, x: 50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              className="text-xs md:text-sm tracking-[0.2em] uppercase block"
+              style={{ color: '#858585' }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              About Me
+              What I Work With
             </motion.span>
 
-            <motion.p
-              className="manifesto-text text-lg text-muted-foreground max-w-xl"
-              style={{ lineHeight: 1.75 }}
-              initial={{ opacity: 0, x: 50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
+            {/* Main heading */}
+            <motion.h2
+              className="text-4xl md:text-5xl lg:text-6xl font-light"
+              style={{ color: '#EEEEEE' }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.9, delay: 0.3 }}
             >
-              I build things the way some people write letters they'll never send.
-              <br />
-              Somewhere between logic and longing, I found programming.
-              <br />
-              A strange craft—where you can give structure to chaos,
-              <br />
-              and call it meaning.
-            </motion.p>
+              Technical Stack
+            </motion.h2>
 
-            <motion.div
-              className="manifesto-text text-lg text-muted-foreground max-w-xl space-y-2"
-              style={{ lineHeight: 1.7 }}
-              initial={{ opacity: 0, x: 50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <p>I work in data — pipelines, dashboards, models.</p>
-              <p>Turning noise into something a person can act on.</p>
-              <p>Python when I need precision. SQL when I need to listen.</p>
-              <p>Power BI when the story needs to be seen.</p>
-            </motion.div>
-
-            <motion.p
-              className="manifesto-text text-lg text-muted-foreground/70 max-w-xl"
-              style={{ lineHeight: 1.7 }}
-              initial={{ opacity: 0, x: 50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.5 }}
-            >
-              Every commit is a quiet refusal to disappear.
-            </motion.p>
-
-            <motion.div
-              className="manifesto-text flex flex-wrap gap-3 pt-4"
-              initial={{ opacity: 0, x: 50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              {['Python', 'SQL', 'Power BI', 'Machine Learning', 'Data Analysis'].map((skill) => (
-                <motion.span
-                  key={skill}
-                  className="text-sm text-foreground/70 px-3 py-1.5 rounded-full border border-border/50 hover:border-foreground/30 hover:text-foreground transition-colors cursor-default"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  transition={{ duration: 0.2 }}
+            {/* Tech categories */}
+            <div className="space-y-8 md:space-y-10 pt-4">
+              {techStack.map((stack, stackIndex) => (
+                <motion.div
+                  key={stack.category}
+                  className="space-y-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: 0.5 + stackIndex * 0.1 }}
                 >
-                  {skill}
-                </motion.span>
+                  {/* Category label */}
+                  <h3
+                    className="text-xs tracking-[0.15em] uppercase font-medium"
+                    style={{ color: '#555555' }}
+                  >
+                    {stack.category}
+                  </h3>
+
+                  {/* Technologies */}
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                    {stack.technologies.map((tech, techIndex) => (
+                      <motion.span
+                        key={tech}
+                        className="text-base md:text-lg font-light transition-colors duration-300 cursor-default"
+                        style={{ color: '#EEEEEE' }}
+                        initial={{ opacity: 0 }}
+                        animate={isInView ? { opacity: 1 } : {}}
+                        transition={{ duration: 0.5, delay: 0.6 + stackIndex * 0.1 + techIndex * 0.03 }}
+                        whileHover={{
+                          color: '#E58A43',
+                          scale: 1.05,
+                        }}
+                      >
+                        {tech}
+                        {techIndex < stack.technologies.length - 1 && (
+                          <span
+                            className="ml-4 text-xs"
+                            style={{ color: '#555555' }}
+                          >
+                            ·
+                          </span>
+                        )}
+                      </motion.span>
+                    ))}
+                  </div>
+                </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
         </div>
       </div>
+
+      {/* Bottom transition gradient into Autumn Walk */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-48 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(8,8,8,0.5) 50%, #080808 100%)',
+        }}
+      />
+
+      {/* Subtle atmospheric glow for transition */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-40 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 60% 40% at 50% 100%, rgba(198,93,37,0.02) 0%, transparent 70%)',
+        }}
+      />
     </section>
   );
 };
