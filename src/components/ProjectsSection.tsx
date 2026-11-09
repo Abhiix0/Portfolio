@@ -61,7 +61,7 @@ export const ProjectsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-16 md:py-20 lg:py-24"
+      className="relative min-h-screen pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-20 lg:pb-24"
       style={{ 
         zIndex: 1,
       }}
