@@ -130,15 +130,11 @@ export const QuoteSection = () => {
         }}
       />
 
-      {/* ── Falling Maple Leaves (Extended Container) ── */}
+      {/* ── Falling Maple Leaves (Contained to Quote Section) ── */}
       {isInView && (
         <div 
-          className="absolute left-0 right-0 pointer-events-none" 
-          style={{ 
-            top: 0, 
-            height: '150vh', // Extends beyond section into Projects
-            zIndex: 20 
-          }}
+          className="absolute inset-0 pointer-events-none overflow-hidden"
+          style={{ zIndex: 20 }}
         >
           <FallingLeaves
             count={isMobile ? 12 : 22}
@@ -153,15 +149,6 @@ export const QuoteSection = () => {
             zIndex={20}
             respectReducedMotion={true}
             autoStart={true}
-          />
-          {/* Progressive fade - starts deeper in Projects section */}
-          <div
-            className="absolute left-0 right-0 pointer-events-none"
-            style={{
-              top: '120vh', // Starts fade well into Projects
-              height: '30vh',
-              background: 'linear-gradient(to bottom, transparent 0%, rgba(8,8,8,0.7) 50%, rgba(8,8,8,1) 100%)',
-            }}
           />
         </div>
       )}
@@ -189,19 +176,19 @@ export const QuoteSection = () => {
         }}
       />
 
-      {/* ── Forest Fade to Darkness ── */}
+      {/* ── Forest Fade to Darkness (Smoother Transition) ── */}
       <div
-        className="absolute bottom-0 left-0 w-full h-[60%] pointer-events-none z-30"
+        className="absolute bottom-0 left-0 w-full h-[70%] pointer-events-none z-30"
         style={{
-          background: 'linear-gradient(to top, #080808 0%, rgba(8,8,8,0.95) 15%, rgba(8,8,8,0.7) 35%, rgba(8,8,8,0.4) 55%, transparent 100%)',
+          background: 'linear-gradient(to top, #080808 0%, #080808 5%, rgba(8,8,8,0.98) 12%, rgba(8,8,8,0.92) 22%, rgba(8,8,8,0.8) 35%, rgba(8,8,8,0.6) 50%, rgba(8,8,8,0.3) 65%, transparent 100%)',
         }}
       />
 
       {/* ── Transition Ambient Glow ── */}
       <div
-        className="absolute bottom-0 left-0 w-full h-48 pointer-events-none z-25"
+        className="absolute bottom-0 left-0 w-full h-56 pointer-events-none z-25"
         style={{
-          background: 'radial-gradient(ellipse 60% 40% at 50% 100%, rgba(198,93,37,0.03) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 70% 50% at 50% 100%, rgba(198,93,37,0.035) 0%, rgba(198,93,37,0.015) 40%, transparent 80%)',
         }}
       />
     </section>

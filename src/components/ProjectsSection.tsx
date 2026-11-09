@@ -63,14 +63,6 @@ export const ProjectsSection = () => {
       className="relative min-h-screen py-20 md:py-28 lg:py-36"
       style={{ background: '#080808', zIndex: 1 }}
     >
-      {/* Subtle ambient glow continuation from Autumn Walk */}
-      <div
-        className="absolute top-0 left-0 w-full h-40 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse 50% 30% at 50% 0%, rgba(198,93,37,0.025) 0%, transparent 70%)',
-        }}
-      />
-
       <div className="container px-4 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto">
         {/* Section header */}
         <div className="projects-header mb-12 md:mb-16 lg:mb-20">
