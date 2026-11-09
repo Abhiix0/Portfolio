@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
 import { ProjectCard } from './ProjectCard';
 import type { Project } from '@/types';
+import heapBg from '@/assets/heap.png';
 
 const projects: Project[] = [
   {
@@ -60,12 +61,49 @@ export const ProjectsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-20 md:py-28 lg:py-36"
-      style={{ background: '#080808', zIndex: 1 }}
+      className="relative min-h-screen py-16 md:py-20 lg:py-24"
+      style={{ 
+        zIndex: 1,
+      }}
     >
+      {/* Background image with overlays */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${heapBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center bottom',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        {/* Dark gradient overlay - darker at top, gradually revealing leaves at bottom */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.85) 30%, rgba(8,8,8,0.75) 60%, rgba(8,8,8,0.65) 100%)',
+          }}
+        />
+        
+        {/* Smooth top edge blend */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-32"
+          style={{
+            background: 'linear-gradient(to bottom, #080808 0%, transparent 100%)',
+          }}
+        />
+        
+        {/* Smooth bottom edge blend */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-32"
+          style={{
+            background: 'linear-gradient(to top, #080808 0%, transparent 100%)',
+          }}
+        />
+      </div>
+
       <div className="container px-4 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto">
         {/* Section header */}
-        <div className="projects-header mb-12 md:mb-16 lg:mb-20">
+        <div className="projects-header mb-8 md:mb-10 lg:mb-12">
           <motion.span
             className="text-sm tracking-widest uppercase text-muted-foreground block"
             initial={{ opacity: 0, x: -30 }}
@@ -93,7 +131,7 @@ export const ProjectsSection = () => {
         </div>
 
         {/* 3-card grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 pb-8">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} isInView={isInView} />
           ))}

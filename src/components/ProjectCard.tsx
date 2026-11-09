@@ -43,12 +43,13 @@ export const ProjectCard = ({ project, index, isInView }: ProjectCardProps) => {
         <motion.div
           className="h-full rounded-2xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300"
           style={{
-            background: '#101010',
-            border: '1px solid rgba(255,255,255,0.08)',
+            background: 'rgba(16,16,16,0.85)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255,255,255,0.10)',
           }}
           whileHover={{
-            borderColor: 'rgba(255,255,255,0.15)',
-            boxShadow: '0 20px 40px -15px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)',
+            borderColor: 'rgba(255,255,255,0.18)',
+            boxShadow: '0 20px 40px -15px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)',
           }}
         >
           {/* Subtle hover gradient */}
