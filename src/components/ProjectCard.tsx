@@ -155,7 +155,7 @@ export const ProjectCard = ({ project, index, isInView }: ProjectCardProps) => {
 
             {/* Content */}
             <motion.div
-              className="relative z-10 w-full max-w-2xl card-ambient rounded-3xl p-6 md:p-8 lg:p-12 glow-border overflow-hidden"
+              className="relative z-10 w-full max-w-2xl card-ambient rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 glow-border overflow-hidden"
               initial={{ scale: 0.85, opacity: 0, y: 40 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -187,7 +187,7 @@ export const ProjectCard = ({ project, index, isInView }: ProjectCardProps) => {
               </motion.span>
 
               <motion.h2
-                className="text-2xl md:text-3xl lg:text-4xl font-medium text-foreground mt-4"
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-foreground mt-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
@@ -196,7 +196,7 @@ export const ProjectCard = ({ project, index, isInView }: ProjectCardProps) => {
               </motion.h2>
 
               <motion.p
-                className="text-lg text-muted-foreground mt-6 leading-relaxed whitespace-pre-line"
+                className="text-base sm:text-lg text-muted-foreground mt-4 sm:mt-6 leading-relaxed whitespace-pre-line"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -205,7 +205,7 @@ export const ProjectCard = ({ project, index, isInView }: ProjectCardProps) => {
               </motion.p>
 
               <motion.div
-                className="flex flex-wrap gap-2 mt-6"
+                className="flex flex-wrap gap-2 mt-4 sm:mt-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.25 }}
@@ -213,7 +213,7 @@ export const ProjectCard = ({ project, index, isInView }: ProjectCardProps) => {
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-4 py-2 text-sm bg-secondary/50 text-secondary-foreground rounded-full"
+                    className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm bg-secondary/50 text-secondary-foreground rounded-full"
                   >
                     {tag}
                   </span>
@@ -221,7 +221,7 @@ export const ProjectCard = ({ project, index, isInView }: ProjectCardProps) => {
               </motion.div>
 
               <motion.div
-                className="flex gap-4 mt-8"
+                className="flex flex-wrap gap-3 sm:gap-4 mt-6 sm:mt-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}

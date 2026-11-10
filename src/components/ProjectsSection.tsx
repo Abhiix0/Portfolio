@@ -61,7 +61,7 @@ export const ProjectsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen pt-8 md:pt-12 lg:pt-16 pb-0"
+      className="relative min-h-[100svh] pt-6 sm:pt-8 md:pt-12 lg:pt-16 pb-0"
       style={{ 
         zIndex: 1,
       }}
@@ -80,20 +80,20 @@ export const ProjectsSection = () => {
         <div 
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to bottom, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.85) 30%, rgba(8,8,8,0.75) 60%, rgba(8,8,8,0.65) 85%, rgba(8,8,8,0.5) 100%)',
+            background: 'linear-gradient(to bottom, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.88) 20%, rgba(8,8,8,0.85) 40%, rgba(8,8,8,0.75) 65%, rgba(8,8,8,0.65) 85%, rgba(8,8,8,0.5) 100%)',
           }}
         />
         
         {/* Smooth top edge blend */}
         <div 
-          className="absolute top-0 left-0 right-0 h-32"
+          className="absolute top-0 left-0 right-0 h-24 sm:h-32"
           style={{
             background: 'linear-gradient(to bottom, #080808 0%, transparent 100%)',
           }}
         />
       </div>
 
-      <div className="container px-4 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto pb-16 md:pb-20 lg:pb-24">
+      <div className="container px-4 sm:px-6 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto pb-12 sm:pb-16 md:pb-20 lg:pb-24">
         {/* Section header */}
         <div className="projects-header mb-8 md:mb-10 lg:mb-12">
           <motion.span
@@ -105,7 +105,7 @@ export const ProjectsSection = () => {
             Selected Works
           </motion.span>
           <motion.h2
-            className="text-5xl md:text-6xl lg:text-7xl font-light mt-4"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light mt-4"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -113,7 +113,7 @@ export const ProjectsSection = () => {
             Projects
           </motion.h2>
           <motion.p
-            className="text-base md:text-lg text-muted-foreground mt-6 max-w-xl leading-relaxed"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground mt-4 sm:mt-6 max-w-xl leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}

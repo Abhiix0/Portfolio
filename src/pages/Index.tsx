@@ -8,6 +8,7 @@ import { QuoteSection } from '@/components/QuoteSection';
 import { ProjectsSection } from '@/components/ProjectsSection';
 import { ContactSection } from '@/components/ContactSection';
 import { CustomCursor } from '@/components/CustomCursor';
+import { MobileMenu } from '@/components/MobileMenu';
 
 const Index = () => {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -70,7 +71,7 @@ const Index = () => {
 
         {/* Navigation */}
         <motion.nav
-          className={`fixed top-0 left-0 w-full z-40 p-6 md:p-8 flex justify-between items-center mix-blend-difference transition-all duration-200 ${isModalOpen ? 'pointer-events-none opacity-0' : ''}`}
+          className={`fixed top-0 left-0 w-full z-40 p-4 sm:p-6 md:p-8 flex justify-between items-center mix-blend-difference transition-all duration-200 ${isModalOpen ? 'pointer-events-none opacity-0' : ''}`}
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -78,7 +79,7 @@ const Index = () => {
         >
           <motion.a
             href="#"
-            className="text-lg font-medium text-foreground tracking-tight"
+            className="text-base sm:text-lg font-medium text-foreground tracking-tight"
             whileHover={{ scale: 1.05 }}
             data-magnetic
             tabIndex={isModalOpen ? -1 : undefined}
@@ -86,7 +87,8 @@ const Index = () => {
             ASG
           </motion.a>
 
-          <div className="hidden sm:flex items-center gap-6 md:gap-8">
+          {/* Desktop Navigation */}
+          <div className="hidden sm:flex items-center gap-4 sm:gap-6 md:gap-8">
             {[
               { label: 'About', href: '#about' },
               { label: 'Work', href: '#projects' },
@@ -112,6 +114,9 @@ const Index = () => {
               </motion.a>
             ))}
           </div>
+
+          {/* Mobile Menu */}
+          <MobileMenu isModalOpen={isModalOpen} />
         </motion.nav>
 
         {/* Main sections */}
@@ -136,13 +141,13 @@ const Index = () => {
 
         {/* Scroll progress indicator */}
         <motion.div
-          className={`fixed bottom-8 right-8 z-50 hidden md:block transition-all duration-200 ${isModalOpen ? 'pointer-events-none opacity-0' : ''}`}
+          className={`fixed bottom-6 sm:bottom-8 right-6 sm:right-8 z-50 hidden md:block transition-all duration-200 ${isModalOpen ? 'pointer-events-none opacity-0' : ''}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
           aria-hidden={true}
         >
-          <div className="w-px h-24 bg-border/30 relative overflow-hidden rounded-full">
+          <div className="w-px h-20 sm:h-24 bg-border/30 relative overflow-hidden rounded-full">
             <motion.div
               className="absolute top-0 left-0 w-full bg-foreground/60"
               style={{

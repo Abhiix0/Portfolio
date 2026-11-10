@@ -84,7 +84,7 @@ export const HeroSection = () => {
     };
     window.addEventListener('mousemove', onMove);
     return () => window.removeEventListener('mousemove', onMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
   const textLines = [
     { text: "Hello, I'm Abhi.", delay: 0    },
@@ -96,7 +96,7 @@ export const HeroSection = () => {
   return (
     <motion.section
       ref={containerRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-[100svh] flex items-center overflow-hidden"
       style={{
         position: 'relative',
         opacity: springOpacity, scale, willChange: 'transform, opacity, filter',
@@ -108,11 +108,11 @@ export const HeroSection = () => {
 
       <ParticleField />
 
-      {/* Bubbles — in the hero section background, z-0, right side where silhouette is */}
+      {/* Bubbles */}
       <BubbleField />
 
-      {/* Text — LEFT */}
-      <div ref={textRef} className="relative z-10 w-full md:w-1/2 pl-8 md:pl-24 lg:pl-32 xl:pl-40 2xl:pl-48 pr-4">
+      {/* Text — LEFT — Responsive padding and typography */}
+      <div ref={textRef} className="relative z-10 w-full md:w-1/2 px-6 sm:px-8 md:pl-16 lg:pl-24 xl:pl-32 2xl:pl-40 md:pr-4">
         <div className="max-w-lg">
           {textLines.map((line, index) => (
             <motion.div
@@ -123,7 +123,7 @@ export const HeroSection = () => {
               onMouseLeave={() => setHiddenChar(null)}
             >
               <h1
-                className={`text-4xl md:text-6xl lg:text-7xl font-light tracking-[-0.02em] leading-tight transition-all duration-300 text-balance ${index !== 1 ? 'hover:tracking-[0.02em] hover:scale-[1.02]' : ''} ${
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light tracking-[-0.02em] leading-tight transition-all duration-300 text-balance ${index !== 1 ? 'hover:tracking-[0.02em] hover:scale-[1.02]' : ''} ${
                   index === 1 ? 'text-gradient font-medium' : index === 0 ? 'text-foreground/95' : 'text-foreground/60'
                 }`}
               >
@@ -133,38 +133,37 @@ export const HeroSection = () => {
                     className={index === 1 ? 'inline-block' : 'inline-block transition-transform duration-150 ease-out hover:scale-[1.15] hover:-translate-y-[3px]'}
                     {...(index === 1 ? { onMouseEnter: () => setHiddenChar(charIndex), style: { opacity: hiddenChar === charIndex ? 0 : 1 } } : {})}
                   >
-                    {char === ' ' ? ' ' : char}
+                    {char === ' ' ? ' ' : char}
                   </span>
                 ))}
               </h1>
             </motion.div>
           ))}
 
-          <motion.p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-md leading-relaxed" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}>
+          <motion.p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl text-muted-foreground max-w-md leading-relaxed" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}>
             Watching clouds. Solving problems.
           </motion.p>
 
-          <motion.div className="mt-12" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 1.8 }}>
+          <motion.div className="mt-8 sm:mt-12" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 1.8 }}>
             <PlayButton isPlaying={isPlaying} onToggle={handlePlayToggle} />
           </motion.div>
 
-          <motion.div className="mt-12 flex items-center gap-3 text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1 }}>
-            <motion.div className="w-px h-16 bg-gradient-to-b from-foreground/60 via-foreground/30 to-transparent" animate={{ scaleY: [1, 0.6, 1], opacity: [0.8, 0.4, 0.8] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }} />
-            <span className="text-sm tracking-widest uppercase">Scroll to explore</span>
+          <motion.div className="mt-8 sm:mt-12 flex items-center gap-3 text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1 }}>
+            <motion.div className="w-px h-12 sm:h-16 bg-gradient-to-b from-foreground/60 via-foreground/30 to-transparent" animate={{ scaleY: [1, 0.6, 1], opacity: [0.8, 0.4, 0.8] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }} />
+            <span className="text-xs sm:text-sm tracking-widest uppercase">Scroll to explore</span>
           </motion.div>
         </div>
       </div>
 
-      {/* Silhouette — RIGHT — clean, no bubble layering issues */}
+      {/* Silhouette — RIGHT — Responsive positioning to avoid text overlap */}
       <motion.div
-        className="absolute right-8 md:right-16 xl:right-24 2xl:right-32 bottom-8 md:bottom-16 w-[85%] md:w-[40%] xl:w-[35%] 2xl:w-[30%] h-[70vh] pointer-events-none"
+        className="absolute right-4 sm:right-6 md:right-12 lg:right-16 xl:right-20 2xl:right-28 bottom-6 sm:bottom-8 md:bottom-12 lg:bottom-16 w-[70%] sm:w-[65%] md:w-[45%] lg:w-[40%] xl:w-[35%] 2xl:w-[30%] h-[50vh] sm:h-[55vh] md:h-[65vh] lg:h-[70vh] pointer-events-none opacity-40 sm:opacity-60 md:opacity-100"
         style={{ y: springY }}
       >
-        {/* Rounded container — bg-black clips the inverted PNG white background */}
         <div ref={silhouetteRef} className="absolute inset-0">
-        <div className="absolute inset-0 rounded-3xl overflow-hidden bg-black">
+        <div className="absolute inset-0 rounded-2xl sm:rounded-3xl overflow-hidden bg-black">
           <motion.div
-            className="relative w-full h-full flex items-end justify-center pb-8"
+            className="relative w-full h-full flex items-end justify-center pb-4 sm:pb-6 md:pb-8"
             style={{ x: parallaxX, y: parallaxY }}
           >
             <motion.img
@@ -184,7 +183,7 @@ export const HeroSection = () => {
       {/* Ambient gradient left */}
       <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none" style={{ background: 'radial-gradient(ellipse at 20% 40%, hsl(0 0% 8% / 0.5) 0%, transparent 70%)' }} />
 
-      {/* Bottom transition gradient - seamless blend into About section */}
+      {/* Bottom transition gradient */}
       <motion.div
         className="absolute bottom-0 left-0 w-full h-[40vh] pointer-events-none z-20"
         style={{

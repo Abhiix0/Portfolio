@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { FallingLeaves } from 'falling-leaves/react';
 import autumnForest from '@/assets/Quote.png';
+import autumnForestMobile from '@/assets/quote-mobile.png';
 
 // ── Firefly Component ─────────────────────────────────────────────────────────
 interface FireflyProps {
@@ -51,9 +52,12 @@ export const QuoteSection = () => {
   const isInView = useInView(sectionRef, { once: false, margin: '0px 0px -20% 0px' });
   const [isMobile, setIsMobile] = useState(false);
 
-  // Detect mobile viewport
+  // Detect mobile viewport - more granular breakpoints
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const checkMobile = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+    };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -71,8 +75,8 @@ export const QuoteSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[100svh] flex items-center"
-      style={{ background: '#080808', overflow: 'visible' }}
+      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden px-4 sm:px-6 md:px-8"
+      style={{ background: '#080808' }}
     >
       {/* ── Background Image with Slow Zoom ── */}
       <motion.div
@@ -86,15 +90,28 @@ export const QuoteSection = () => {
           ease: 'easeInOut',
         }}
       >
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: `url(${autumnForest})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        />
+        <picture>
+          {/* Extra small mobile (320-374px) */}
+          <source 
+            media="(max-width: 374px)" 
+            srcSet={autumnForestMobile}
+          />
+          {/* Small mobile (375-639px) */}
+          <source 
+            media="(min-width: 375px) and (max-width: 639px)" 
+            srcSet={autumnForestMobile}
+          />
+          {/* Desktop version - landscape original (640px+) */}
+          <img
+            src={autumnForest}
+            alt="Autumn Forest Walk"
+            className="w-full h-full object-cover object-center"
+            style={{
+              filter: 'brightness(0.9) contrast(1.05)',
+            }}
+          />
+        </picture>
+        
         {/* Dark overlay to preserve monochromatic mood */}
         <div
           className="absolute inset-0"
@@ -170,7 +187,7 @@ export const QuoteSection = () => {
 
       {/* ── Gradient Fade Top ── */}
       <div
-        className="absolute top-0 left-0 w-full h-32 pointer-events-none z-30"
+        className="absolute top-0 left-0 w-full h-24 xs:h-28 sm:h-32 pointer-events-none z-30"
         style={{
           background: 'linear-gradient(to bottom, #080808 0%, transparent 100%)',
         }}
@@ -186,7 +203,7 @@ export const QuoteSection = () => {
 
       {/* ── Transition Ambient Glow ── */}
       <div
-        className="absolute bottom-0 left-0 w-full h-56 pointer-events-none z-25"
+        className="absolute bottom-0 left-0 w-full h-40 xs:h-48 sm:h-56 pointer-events-none z-25"
         style={{
           background: 'radial-gradient(ellipse 70% 50% at 50% 100%, rgba(198,93,37,0.035) 0%, rgba(198,93,37,0.015) 40%, transparent 80%)',
         }}
