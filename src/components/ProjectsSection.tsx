@@ -2,12 +2,14 @@ import { useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
 import { ProjectCard } from './ProjectCard';
+import type { Project } from '@/types';
+import heapBg from '@/assets/heap.png';
 
-const projects = [
+const projects: Project[] = [
   {
     id: 1,
     title: 'Spawn',
-    description: 'A developer CLI that eliminates repetitive Python project setup and creates production-ready environments in seconds.',
+    description: 'A developer CLI that simplifies Python project creation and eliminates repetitive setup work.',
     longDescription:
       'Spawn is a local command-line tool that transforms a single command into a fully structured Python development environment. It automates project scaffolding, Git initialization, virtual environment creation, GitHub publishing, and template generation for common workflows like FastAPI, Data Science, and Machine Learning.\n\nBuilt with Python, Typer, and Rich, Spawn focuses on developer experience through interactive prompts, clear terminal interfaces, and automated setup flows. It also includes a project auditing system called `spawn doctor`, which analyzes repository health and scores projects across documentation, testing, deployment, and configuration best practices.',
     tags: ['Python', 'CLI Development', 'Typer', 'Rich', 'Developer Tools', 'Automation'],
@@ -15,21 +17,21 @@ const projects = [
   },
   {
     id: 2,
-    title: 'Placement Intelligence System (PIS)',
-    description: 'An ML-powered platform that evaluates placement readiness using real coding activity, GitHub signals, and predictive analytics.',
+    title: 'NexGauge',
+    description: 'A career intelligence platform designed to help students understand their skills, identify gaps and track their development through structured assessments and actionable insights.',
     longDescription:
-      'PIS is a full-stack analytics platform that measures student placement readiness through a combination of SQL feature engineering, machine learning, and explainable insights. The system ingests coding activity, GitHub contribution data, academic performance, and behavioral metrics to generate readiness scores and personalized recommendations.\n\nThe architecture separates concerns across PostgreSQL, FastAPI, and Streamlit, with all feature computation performed directly inside SQL through optimized multi-CTE pipelines. A hybrid insight engine combines Random Forest feature importance with rule-based reasoning to produce recommendations that are both interpretable and data-driven.',
-    tags: ['Python', 'PostgreSQL', 'Machine Learning', 'FastAPI', 'Streamlit', 'Data Engineering'],
+      'NexGauge is a full-stack analytics platform that measures student career readiness through a combination of SQL feature engineering, machine learning, and explainable insights. The system ingests coding activity, GitHub contribution data, academic performance, and behavioral metrics to generate readiness scores and personalized recommendations.\n\nThe architecture separates concerns across PostgreSQL, FastAPI, and React, with all feature computation performed directly inside SQL through optimized multi-CTE pipelines. A hybrid insight engine combines Random Forest feature importance with rule-based reasoning to produce recommendations that are both interpretable and data-driven.',
+    tags: ['Python', 'React', 'TypeScript', 'FastAPI', 'PostgreSQL', 'Machine Learning'],
     github: 'https://github.com/Abhiix0/PIS',
   },
   {
     id: 3,
-    title: 'AI Data Analyst',
-    description: 'A multi-agent analytics system that turns raw datasets into insights, visualizations, and AI-generated reports.',
+    title: 'Relay',
+    description: 'An intelligent context layer that combines agent-based workflows with persistent context to support more informed AI interactions.',
     longDescription:
-      'AI Data Analyst is an agent-based analytics platform designed to automate the data analysis workflow. Users can upload datasets and receive intelligent summaries, exploratory analysis, statistical insights, and visual interpretations generated through coordinated AI agents.\n\nThe project orchestrates specialized agents responsible for data understanding, analysis, reasoning, and reporting, creating a workflow that mirrors how a human analyst approaches a problem. The focus is on reducing manual analysis effort while making data exploration faster, more accessible, and more actionable.',
-    tags: ['Python', 'Streamlit', 'Multi-Agent Systems', 'Data Analytics', 'AI Workflows', 'LLMs'],
-    github: 'https://github.com/Abhiix0/AI-Data-Analyst',
+      'Relay is an intelligent context management system designed to enhance AI interactions through persistent context layers and coordinated agent workflows. The platform maintains conversation history, user preferences, and domain knowledge across sessions, enabling more coherent and contextually aware AI responses.\n\nBuilt with React, Node.js, and MongoDB, Relay orchestrates multiple AI agents that collaborate to understand user intent, retrieve relevant context, and generate informed responses. The system emphasizes context engineering as a core capability, treating persistent memory and intelligent retrieval as fundamental to effective AI assistance.',
+    tags: ['React', 'Node.js', 'MongoDB', 'Express', 'AI Agents', 'Context Engineering'],
+    github: 'https://github.com/Abhiix0',
   },
 ];
 
@@ -59,27 +61,41 @@ export const ProjectsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-16 md:py-24 lg:py-32 section-ambient"
+      className="relative min-h-[100svh] pt-6 sm:pt-8 md:pt-12 lg:pt-16 pb-0"
+      style={{ 
+        zIndex: 1,
+      }}
     >
-      {/* Background ambient elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          className="absolute top-1/3 right-0 w-[600px] h-[600px] rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, hsl(0 0% 10% / 0.4) 0%, transparent 70%)' }}
-          animate={{ x: [0, 50, 0], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+      {/* Background image with overlays */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${heapBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center bottom',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        {/* Dark gradient overlay - darker at top, gradually revealing leaves at bottom */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.88) 20%, rgba(8,8,8,0.85) 40%, rgba(8,8,8,0.75) 65%, rgba(8,8,8,0.65) 85%, rgba(8,8,8,0.5) 100%)',
+          }}
         />
-        <motion.div
-          className="absolute bottom-1/4 left-0 w-[500px] h-[500px] rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, hsl(0 0% 8% / 0.5) 0%, transparent 70%)' }}
-          animate={{ x: [0, -30, 0], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        
+        {/* Smooth top edge blend */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-24 sm:h-32"
+          style={{
+            background: 'linear-gradient(to bottom, #080808 0%, transparent 100%)',
+          }}
         />
       </div>
 
-      <div className="container px-4 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto">
+      <div className="container px-4 sm:px-6 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto pb-12 sm:pb-16 md:pb-20 lg:pb-24">
         {/* Section header */}
-        <div className="projects-header mb-10 md:mb-16 lg:mb-20">
+        <div className="projects-header mb-8 md:mb-10 lg:mb-12">
           <motion.span
             className="text-sm tracking-widest uppercase text-muted-foreground block"
             initial={{ opacity: 0, x: -30 }}
@@ -89,33 +105,44 @@ export const ProjectsSection = () => {
             Selected Works
           </motion.span>
           <motion.h2
-            className="text-4xl md:text-6xl lg:text-7xl font-light mt-4"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light mt-4"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <span className="text-gradient">Projects</span>
+            Projects
           </motion.h2>
           <motion.p
-            className="text-lg text-muted-foreground mt-4 max-w-md"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground mt-4 sm:mt-6 max-w-xl leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Things I've built — CLI tools, ML platforms, and AI systems that turn complex problems into working software.
+            Things I've built — developer tools, intelligent systems, and software that turn complex problems into working products.
           </motion.p>
         </div>
 
         {/* 3-card grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
           {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <ProjectCard key={project.id} project={project} index={index} isInView={isInView} />
           ))}
         </div>
       </div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+      {/* Extended leaf heap transition zone - allows leaves to flow into Contact section */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 pointer-events-none z-0"
+        style={{
+          height: '40vh',
+          backgroundImage: `url(${heapBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center bottom',
+          backgroundRepeat: 'no-repeat',
+          maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 15%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0) 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 15%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0) 100%)',
+        }}
+      />
     </section>
   );
 };

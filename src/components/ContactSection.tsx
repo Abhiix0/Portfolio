@@ -1,26 +1,18 @@
-import { useRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, Github, Linkedin, ArrowUpRight } from 'lucide-react';
+import contactBg from '@/assets/contact.png';
 
 const socialLinks = [
-  { icon: Github, label: 'GitHub', href: 'https://github.com/Abhiix0' },
-  { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/abhiinavsaig' },
-  { icon: Mail, label: 'Email', href: 'mailto:abhinavsai039@gmail.com' },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/Abhiix0', type: 'github' },
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/abhiinavsaig', type: 'linkedin' },
+  { icon: Mail, label: 'Email', href: 'mailto:abhinavsai039@gmail.com', type: 'email' },
 ];
 
 export const ContactSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-
-  const chronoParticles = useMemo(() => Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 4 + 2,
-    duration: Math.random() * 6 + 4,
-    color: `hsl(0 0% ${50 + Math.random() * 30}% / 0.3)`,
-  })), []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -32,94 +24,101 @@ export const ContactSection = () => {
         });
       }
     };
-    window.addEventListener('mousemove', handleMouseMove);
+    
+    // Respect reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion) {
+      window.addEventListener('mousemove', handleMouseMove);
+    }
+    
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-16 md:py-24 lg:py-32 flex items-center section-ambient"
+      className="relative min-h-screen py-16 md:py-24 lg:py-32 flex items-center overflow-hidden"
     >
-      {/* Interactive parallax background */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        animate={{ x: mousePos.x * -30, y: mousePos.y * -30 }}
-        transition={{ type: 'spring', stiffness: 50, damping: 30 }}
+      {/* Moonlit Japanese shrine background */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${contactBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+        }}
       >
-        <motion.div
+        {/* Dark atmospheric overlay for content contrast */}
+        <div 
           className="absolute inset-0"
           style={{
-            background: `radial-gradient(ellipse 80% 80% at ${50 + mousePos.x * 30}% ${50 + mousePos.y * 30}%, hsl(0 0% 12% / 0.6) 0%, transparent 60%)`,
+            background: 'linear-gradient(to bottom, rgba(12,10,9,0.75) 0%, rgba(12,10,9,0.65) 50%, rgba(12,10,9,0.8) 100%)',
           }}
         />
-        {chronoParticles.map((particle) => (
-          <motion.div
-            key={particle.id}
-            className="absolute rounded-full"
-            style={{
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              width: particle.size,
-              height: particle.size,
-              background: particle.color,
-              boxShadow: `0 0 ${particle.size * 3}px hsl(0 0% 60% / 0.2)`,
-            }}
-            animate={{ y: [0, -30, 0], opacity: [0.2, 0.6, 0.2], scale: [1, 1.2, 1] }}
-            transition={{ duration: particle.duration, repeat: Infinity, ease: 'easeInOut', delay: particle.id * 0.3 }}
-          />
-        ))}
-      </motion.div>
+      </div>
 
-      {/* ── Always-visible glowing frame ── */}
+      {/* Subtle decorative frame */}
       <motion.div
-        className="absolute inset-4 pointer-events-none rounded-3xl"
+        className="absolute inset-4 md:inset-6 pointer-events-none rounded-3xl"
+        style={{ zIndex: 2 }}
         animate={{
           boxShadow: [
-            'inset 0 0 40px hsl(0 0% 30% / 0.08), 0 0 20px hsl(0 0% 30% / 0.06)',
-            'inset 0 0 80px hsl(0 0% 40% / 0.18), 0 0 40px hsl(0 0% 40% / 0.12)',
-            'inset 0 0 40px hsl(0 0% 30% / 0.08), 0 0 20px hsl(0 0% 30% / 0.06)',
+            'inset 0 0 40px rgba(196, 106, 70, 0.03), 0 0 20px rgba(190, 145, 120, 0.02)',
+            'inset 0 0 60px rgba(196, 106, 70, 0.06), 0 0 30px rgba(190, 145, 120, 0.04)',
+            'inset 0 0 40px rgba(196, 106, 70, 0.03), 0 0 20px rgba(190, 145, 120, 0.02)',
           ],
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       >
-        {/* Border */}
-        <div className="absolute inset-0 rounded-3xl border border-foreground/15" />
-        {/* Border only - no corner accents */}
+        <div 
+          className="absolute inset-0 rounded-3xl" 
+          style={{ 
+            border: '1px solid rgba(190, 145, 120, 0.12)',
+          }}
+        />
       </motion.div>
-
-      {/* Animated border lines */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          className="hidden md:block absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/50 to-transparent"
-          animate={{ opacity: [0.15, 0.4, 0.15] }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="hidden md:block absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent"
-          animate={{ opacity: [0.2, 0.5, 0.2] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-        />
-      </div>
 
       <div className="container px-4 md:px-8 lg:px-16 relative z-10 max-w-screen-xl mx-auto">
         {/* Main heading */}
         <motion.div
           className="max-w-3xl mx-auto text-center mb-12 md:mb-16 lg:mb-20"
-          animate={{ x: mousePos.x * 15, y: mousePos.y * 10 }}
+          animate={{ 
+            x: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : mousePos.x * 6, 
+            y: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : mousePos.y * 4 
+          }}
           transition={{ type: 'spring', stiffness: 100, damping: 30 }}
         >
-          <motion.span
-            className="text-sm tracking-widest uppercase text-muted-foreground block mb-6"
+          {/* Eyebrow with crimson accent */}
+          <motion.div
+            className="flex items-center justify-center gap-3 mb-6"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            Get in Touch
-          </motion.span>
+            <div 
+              className="w-8 h-px" 
+              style={{ 
+                background: 'linear-gradient(to right, transparent, rgba(196, 106, 70, 0.4), transparent)',
+              }}
+            />
+            <span
+              className="text-xs tracking-[0.25em] uppercase font-medium"
+              style={{ color: '#A49B93' }}
+            >
+              Get in Touch
+            </span>
+            <div 
+              className="w-8 h-px" 
+              style={{ 
+                background: 'linear-gradient(to right, transparent, rgba(196, 106, 70, 0.4), transparent)',
+              }}
+            />
+          </motion.div>
 
           <motion.h2
             className="text-3xl md:text-5xl lg:text-6xl font-light leading-[1.2]"
+            style={{ color: '#E8E3DC' }}
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
           >
@@ -127,7 +126,7 @@ export const ContactSection = () => {
               className="block"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.15 }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             >
               If this made sense to you,
             </motion.span>
@@ -135,17 +134,19 @@ export const ContactSection = () => {
               className="block mt-2"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
             >
-              we should talk.
+              we should{' '}
+              <span style={{ color: '#C46A46' }}>talk.</span>
             </motion.span>
           </motion.h2>
 
           <motion.p
-            className="text-lg md:text-xl text-muted-foreground mt-8 max-w-xl mx-auto"
+            className="text-lg md:text-xl mt-8 max-w-xl mx-auto leading-relaxed"
+            style={{ color: '#A49B93' }}
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             I'm open to ideas, projects, or just a good conversation.
           </motion.p>
@@ -153,51 +154,155 @@ export const ContactSection = () => {
 
         {/* Social links */}
         <motion.div
-          className="flex flex-wrap justify-center gap-4 md:gap-6"
+          className="flex flex-wrap justify-center gap-4 md:gap-5"
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.75 }}
         >
-          {socialLinks.map((link, index) => (
-            <motion.a
-              key={link.label}
-              href={link.href}
-              className="group relative"
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-              data-magnetic
-            >
-              <motion.div
-                className="relative flex items-center gap-3 px-4 py-3 md:px-6 md:py-4 rounded-2xl border border-border/40 bg-card/20 backdrop-blur-sm overflow-hidden"
-                whileHover={{ scale: 1.05, borderColor: 'hsl(0 0% 40%)', boxShadow: '0 0 40px hsl(0 0% 30% / 0.2)' }}
-                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+          {socialLinks.map((link, index) => {
+            const isEmail = link.type === 'email';
+            
+            return (
+              <motion.a
+                key={link.label}
+                href={link.href}
+                className="group relative"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.85 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                data-magnetic
               >
-                <motion.div className="absolute inset-0 bg-gradient-radial from-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
-                <motion.div className="absolute bottom-0 left-0 h-px bg-foreground/50" initial={{ width: 0 }} whileHover={{ width: '100%' }} transition={{ duration: 0.3 }} />
-                <motion.div className="relative z-10" whileHover={{ x: 3 }} transition={{ duration: 0.2 }}>
-                  <link.icon className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <motion.div
+                  className="relative flex items-center gap-3 px-6 py-3.5 md:px-8 md:py-4 rounded-xl border overflow-hidden"
+                  style={{
+                    borderColor: 'rgba(190, 145, 120, 0.18)',
+                    background: 'rgba(20, 15, 13, 0.55)',
+                    backdropFilter: 'blur(12px)',
+                  }}
+                  whileHover={{ 
+                    y: -2,
+                    borderColor: isEmail ? 'rgba(196, 106, 70, 0.65)' : 'rgba(190, 145, 120, 0.45)',
+                    background: isEmail ? 'rgba(196, 106, 70, 0.12)' : 'rgba(25, 20, 18, 0.65)',
+                  }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
+                >
+                  {/* Warm hover glow */}
+                  <motion.div 
+                    className="absolute inset-0 pointer-events-none rounded-xl"
+                    style={{
+                      background: isEmail 
+                        ? 'radial-gradient(circle at center, rgba(196, 106, 70, 0.15) 0%, transparent 70%)'
+                        : 'radial-gradient(circle at center, rgba(232, 227, 220, 0.04) 0%, transparent 70%)',
+                      opacity: 0,
+                    }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+
+                  {/* Bottom accent line */}
+                  <motion.div 
+                    className="absolute bottom-0 left-0 h-px"
+                    style={{
+                      background: isEmail 
+                        ? 'linear-gradient(to right, transparent, rgba(196, 106, 70, 0.7), transparent)'
+                        : 'linear-gradient(to right, transparent, rgba(190, 145, 120, 0.4), transparent)',
+                      width: 0,
+                    }}
+                    whileHover={{ width: '100%' }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                  />
+
+                  {/* Icon */}
+                  <motion.div 
+                    className="relative z-10"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <link.icon 
+                      className="w-5 h-5 transition-all duration-250"
+                      style={{
+                        color: '#B8AEA5',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = isEmail ? '#C46A46' : '#E8E3DC';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = '#B8AEA5';
+                      }}
+                    />
+                  </motion.div>
+
+                  {/* Label */}
+                  <span 
+                    className="text-sm font-medium transition-all duration-250 relative z-10"
+                    style={{ 
+                      color: '#D8D0C8',
+                      letterSpacing: '0.02em',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = isEmail ? '#C46A46' : '#E8E3DC';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#D8D0C8';
+                    }}
+                  >
+                    {link.label}
+                  </span>
+
+                  {/* Arrow with directional movement */}
+                  <motion.div 
+                    className="relative z-10"
+                    initial={{ x: 0, y: 0 }}
+                    whileHover={{ 
+                      x: 3, 
+                      y: -3,
+                    }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                  >
+                    <ArrowUpRight 
+                      className="w-4 h-4 transition-all duration-250"
+                      style={{ color: '#A49B93' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = isEmail ? '#C46A46' : '#E8E3DC';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = '#A49B93';
+                      }}
+                    />
+                  </motion.div>
+
+                  {/* Email emphasis: subtle outer glow */}
+                  {isEmail && (
+                    <motion.div
+                      className="absolute inset-0 rounded-xl pointer-events-none"
+                      style={{
+                        boxShadow: '0 0 0 0 rgba(196, 106, 70, 0)',
+                      }}
+                      whileHover={{
+                        boxShadow: '0 0 24px 3px rgba(196, 106, 70, 0.18)',
+                      }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  )}
                 </motion.div>
-                <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors relative z-10">
-                  {link.label}
-                </span>
-                <motion.div className="relative z-10" initial={{ x: 0, y: 0, opacity: 0.5 }} whileHover={{ x: 4, y: -4, opacity: 1 }} transition={{ duration: 0.2 }}>
-                  <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-                </motion.div>
-              </motion.div>
-            </motion.a>
-          ))}
+              </motion.a>
+            );
+          })}
         </motion.div>
       </div>
 
       {/* Footer */}
       <motion.footer
         className="absolute bottom-8 left-0 w-full text-center"
+        style={{ zIndex: 10 }}
         initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
-        transition={{ duration: 1, delay: 1.5 }}
+        animate={isInView ? { opacity: 0.35 } : {}}
+        transition={{ duration: 1.2, delay: 1.5, ease: 'easeOut' }}
       >
-        <p className="text-sm text-muted-foreground/30 tracking-widest uppercase">
+        <p 
+          className="text-sm tracking-[0.2em] uppercase font-light" 
+          style={{ color: '#8A8179' }}
+        >
           ASG — {new Date().getFullYear()}
         </p>
       </motion.footer>

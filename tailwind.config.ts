@@ -16,6 +16,7 @@ export default {
     },
     extend: {
       screens: {
+        xs: "475px", // Extra small mobile breakpoint
         "3xl": "1920px",
       },
       fontFamily: {
