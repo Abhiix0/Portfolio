@@ -195,17 +195,6 @@ The project combines frontend engineering practices with interactive design prin
 
 ---
 
-## Future Improvements
-
-* Enhanced accessibility support
-* Performance optimization pass
-* Expanded project showcase
-* Improved animation architecture
-* Theme customization
-* Content management integration
-
----
-
 ## Contact
 
 **Abhinav Sai**
